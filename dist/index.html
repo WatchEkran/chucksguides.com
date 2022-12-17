@@ -5,12 +5,14 @@
 
   <script defer>
     document.addEventListener('DOMContentLoaded', () => {
+      const element = document.querySelector('.observer')
       const nav = document.querySelector('.nav')
       const observer = new IntersectionObserver(([e]) => {
-        e.target.classList.toggle('sticky', !e.isIntersecting)
+        console.log(e)
+        nav.classList.toggle('sticky', !e.isIntersecting);
       }, { threshold: 1 })
 
-      observer.observe(nav)
+      observer.observe(element)
     })
   </script>
 
@@ -77,13 +79,23 @@
 
     .nav {
       background-color: #779faa;
-      position: sticky;
-      top: -1px;
+      top: 0;
       z-index: 1;
     }
 
+    .nav.sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
     .nav.sticky .link {
-      padding: 0.3em 0.5em;
+      padding: 0.7em 0.5em;
+    }
+
+    .nav.sticky .icon {
+      height: 20px;
     }
 
     .nav .link {
@@ -107,6 +119,7 @@
       pointer-events: none;
       margin-right: 0.5em;
       border-radius: 50%;
+      transition: height 0.2s ease-out;
     }
 
     .nav .dcs {
@@ -160,6 +173,8 @@
   <div class="banner">
     Chuck's Guides
   </div>
+
+  <div class="observer"></div>
 
   <div class="nav">
     <div class="container">
