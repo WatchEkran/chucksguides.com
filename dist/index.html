@@ -34,7 +34,6 @@
     .patreon-button {
       position: absolute;
       right: 0;
-      display: inline-block;
       background-color: #FF424D;
       text-decoration: none;
       color: white;
@@ -46,6 +45,7 @@
       background-repeat: no-repeat;
       padding: 0.4em 0.7em 0.4em 38px;
       transition: transform 0.1s ease-out;
+      border: 2px solid white;
     }
     .patreon-button:hover {
       transform: scale(1.05);
@@ -72,11 +72,27 @@
       padding: 1em 1em;
       text-decoration: none;
       color: #0c3340;
+      display: flex;
+      align-items: center;
+      font-size: 1.1em;
+      text-transform: uppercase;
     }
 
     .nav .link:hover {
       color: white;
       background-color: #2a879e;
+    }
+
+    .nav .icon {
+      height: 30px;
+      pointer-events: none;
+      margin-right: 0.5em;
+      border-radius: 50%;
+    }
+
+    .nav .dcs {
+      background-color: black;
+      height: 30px;
     }
 
     .cards {
@@ -95,11 +111,18 @@
       border-radius: 3px;
       transition: 0.15s ease-out;
       transition-property: transform, filter;
-      box-shadow: 0 1px 20px 1px rgb(0 0 0 / 30%)
+      box-shadow: 0 1px 20px 1px rgb(0 0 0 / 30%);
+      overflow: hidden;
     }
     .card:hover {
       transform: scale(1.05);
       filter: contrast(1.2);
+    }
+
+    .card img {
+      width: 100%;
+      display: block;
+      pointer-events: none;
     }
 
     .name {
@@ -111,127 +134,6 @@
       text-shadow: 2px 2px 2px black;
       text-transform: uppercase;
     }
-
-    .card.A-10C {
-      background-image: url('/img/dcs/A-10C.webp');
-    }
-    .card.AJS-37 {
-      background-image: url('/img/dcs/AJS-37.webp');
-    }
-    .card.AV-8B {
-      background-image: url('/img/dcs/AV-8B.webp');
-    }
-    .card.C-101CC {
-      background-image: url('/img/dcs/C-101CC.webp');
-    }
-    .card.FA-18C {
-      background-image: url('/img/dcs/FA-18C.webp');
-    }
-    .card.F-14B {
-      background-image: url('/img/dcs/F-14B.webp');
-    }
-    .card.F-16CM {
-      background-image: url('/img/dcs/F-16CM.webp');
-    }
-    .card.F-5E3 {
-      background-image: url('/img/dcs/F-5E3.webp');
-    }
-    .card.F-86F {
-      background-image: url('/img/dcs/F-86F.webp');
-    }
-    .card.M-2000C {
-      background-image: url('/img/dcs/M-2000C.webp');
-    }
-    .card.MiG-15bis {
-      background-image: url('/img/dcs/MiG-15bis.webp')
-    }
-    .card.MiG-19P {
-      background-image: url('/img/dcs/MiG-19P.webp');
-    }
-    .card.MiG-21bis {
-      background-image: url('/img/dcs/MiG-21bis.webp');
-    }
-    .card.JF-17 {
-      background-image: url('/img/dcs/JF-17.webp');
-    }
-    .card.Mi-24P {
-      background-image: url('/img/dcs/Mi-24P.webp');
-    }
-    .card.L-39ZA {
-      background-image: url('/img/dcs/L-39ZA.webp');
-    }
-    .card.Ka-50 {
-      background-image: url('/img/dcs/Ka-50.webp');
-    }
-    .card.Mi-8MTV2 {
-      background-image: url('/img/dcs/Mi-8MTV2.webp');
-    }
-    .card.SA-342 {
-      background-image: url('/img/dcs/SA-342.webp');
-    }
-    .card.UH-1H {
-      background-image: url('/img/dcs/UH-1H.webp');
-    }
-    .card.Bf109K-4 {
-      background-image: url('/img/dcs/Bf.109K-4.webp');
-    }
-    .card.DH98 {
-      background-image: url('/img/dcs/DH98.webp');
-    }
-    .card.FW-190-A8 {
-      background-image: url('img/dcs/FW-190-A8.webp');
-    }
-    .card.FW-190-D9 {
-      background-image: url('img/dcs/FW-190D-9.webp');
-    }
-    .card.I-16 {
-      background-image: url('/img/dcs/I-16.webp');
-    }
-    .card.P-47D {
-      background-image: url('/img/dcs/P-47D.webp');
-    }
-    .card.P-51D {
-      background-image: url('/img/dcs/P-51D.webp');
-    }
-    .card.Spitfire_LF_Mk_Ix {
-      background-image: url('/img/dcs/Spitfire_LF_Mk_Ix.webp');
-    }
-    .card.Hawk_T1A {
-      background-image: url('/img/dcs/Hawk_T.1A.webp');
-    }
-    .card.Yak-52 {
-      background-image: url('/img/dcs/Yak-52.webp');
-    }
-    .card.LaGG-3 {
-      background-image: url('/img/il2-gb/LaGG-3.webp');
-    }
-    .card.Yak-1 {
-      background-image: url('/img/il2-gb/Yak-1.webp');
-    }
-    .card.La-5 {
-      background-image: url('/img/il2-gb/La-5.webp');
-    }
-    .card.IL-2_Mod_1942 {
-      background-image: url('/img/il2-gb/IL-2_Mod_1942.webp');
-    }
-    .card.Pe-2 {
-      background-image: url('/img/il2-gb/Pe-2.webp');
-    }
-    .card.Bf109F-4 {
-      background-image: url('img/il2-gb/Bf109F-4.webp');
-    }
-    .card.Bf109G-2 {
-      background-image: url('/img/il2-gb/Bf109G-2.webp');
-    }
-    .card.FW190A-3 {
-      background-image: url('/img/il2-gb/FW190A-3.webp');
-    }
-    .card.Ju-87D-3 {
-      background-image: url('/img/il2-gb/Ju-87D-3.webp');
-    }
-    .card.He-111H-6 {
-        background-image: url('/img/il2-gb/He-111H-6.webp');
-    }
   </style>
 </head>
 
@@ -242,8 +144,14 @@
 
   <div class="nav">
     <div class="container">
-      <a href="#dcs" class="link">DCS</a>
-      <a href="#il2-gb" class="link">IL-2: Great Battles</a>
+      <a href="#dcs" class="link">
+        <img src="/img/dcs.webp" class="icon dcs">
+        DCS World
+      </a>
+      <a href="#il2-gb" class="link">
+        <img src="/img/il2-gb.webp" class="icon il2-gb">
+        IL-2: Great Battles
+      </a>
       <a href="https://www.patreon.com/chucksguides" class="patreon-button">
         Become a Patron
       </a>
@@ -254,150 +162,190 @@
     <h1 id="dcs">DCS</h1>
     <h2>Jets - 4th Gen</h2>
     <div class="cards">
-      <a href="/aircraft/dcs/a-10c" class="card A-10C">
+      <a href="/aircraft/dcs/a-10c" class="card">
+        <img src="/img/dcs/A-10C.webp" loading="lazy">
         <div class="name">A-10C<br/>Warthog</div>
       </a>
 
-      <a href="/aircraft/dcs/av-8b" class="card AV-8B">
+      <a href="/aircraft/dcs/av-8b" class="card">
+        <img src="/img/dcs/AV-8B.webp" loading="lazy">
         <div class="name">AV-8B N/A<br/>Harrier II</div>
       </a>
 
-      <a href="/aircraft/dcs/f-14b" class="card F-14B">
+      <a href="/aircraft/dcs/f-14b" class="card">
+        <img src="/img/dcs/FA-18C.webp" loading="lazy">
         <div class="name">F-14B<br/>Tomcat</div>
       </a>
 
-      <a href="/aircraft/dcs/f-16cm" class="card F-16CM">
+      <a href="/aircraft/dcs/f-16cm" class="card">
+        <img src="/img/dcs/F-16CM.webp" loading="lazy">
         <div class="name">F-16CM<br/>Viper</div>
       </a>
 
-      <a href="/aircraft/dcs/fa-18c" class="card FA-18C">
+      <a href="/aircraft/dcs/fa-18c" class="card">
+        <img src="/img/dcs/FA-18C.webp" loading="lazy">
         <div class="name">F/A-18C<br/>Hornet</div>
       </a>
 
-      <a href="/aircraft/dcs/jf-17" class="card JF-17">
+      <a href="/aircraft/dcs/jf-17" class="card">
+        <img src="/img/dcs/JF-17.webp" loading="lazy">
         <div class="name">JF-17<br/>Thunder</div>
       </a>
 
-      <a href="/aircraft/dcs/m-2000c" class="card M-2000C">
+      <a href="/aircraft/dcs/m-2000c" class="card">
+        <img src="/img/dcs/M-2000C.webp" loading="lazy">
         <div class="name">Mirage 2000C</div>
       </a>
     </div>
 
     <h2>Jets - Cold War</h2>
     <div class="cards">
-      <a href="/aircraft/dcs/ajs-37" class="card AJS-37">
+      <a href="/aircraft/dcs/ajs-37" class="card">
+        <img src="/img/dcs/AJS-37.webp" loading="lazy">
         <div class="name">AJS-37<br/>Viggen</div>
       </a>
-      <a href="/aircraft/dcs/f-5e3" class="card F-5E3">
+      <a href="/aircraft/dcs/f-5e3" class="card">
+        <img src="/img/dcs/F-5E3.webp" loading="lazy">
         <div class="name">F-5E3<br/>Tiger II</div>
       </a>
-      <a href="/aircraft/dcs/f-86f" class="card F-86F">
+      <a href="/aircraft/dcs/f-86f" class="card">
+        <img src="/img/dcs/F-86F.webp" loading="lazy">
         <div class="name">F-86F<br/>Sabre</div>
       </a>
-      <a href="/aircraft/dcs/mig-15bis" class="card MiG-15bis">
+      <a href="/aircraft/dcs/mig-15bis" class="card">
+        <img src="/img/dcs/MiG-15bis.webp" loading="lazy">
         <div class="name">Mig-15bis</div>
       </a>
-      <a href="/aircraft/dcs/mig-19p" class="card MiG-19P">
+      <a href="/aircraft/dcs/mig-19p" class="card">
+        <img src="/img/dcs/MiG-19P.webp" loading="lazy">
         <div class="name">MiG-19P</div>
       </a>
-      <a href="/aircraft/dcs/mig-21bis" class="card MiG-21bis">
+      <a href="/aircraft/dcs/mig-21bis" class="card">
+        <img src="/img/dcs/MiG-21bis.webp" loading="lazy">
         <div class="name">Mig-21bis</div>
       </a>
     </div>
 
     <h2>Helicopters</h2>
     <div class="cards">
-      <a href="/aircraft/dcs/ka-50" class="card Ka-50">
+      <a href="/aircraft/dcs/ka-50" class="card">
+        <img src="/img/dcs/Ka-50.webp" loading="lazy">
         <div class="name">Ka-50<br/>Black Shark</div>
       </a>
-      <a href="/aircraft/dcs/mi-8" class="card Mi-8MTV2">
+      <a href="/aircraft/dcs/mi-8" class="card">
+        <img src="/img/dcs/Mi-8MTV2.webp" loading="lazy">
         <div class="name">Mi-8MTV2</div>
       </a>
-      <a href="/aircraft/dcs/mi-24p" class="card Mi-24P">
+      <a href="/aircraft/dcs/mi-24p" class="card">
+        <img src="/img/dcs/Mi-24P.webp" loading="lazy">
         <div class="name">Mi-24P<br/>Hind</div>
       </a>
-      <a href="/aircraft/dcs/sa-342" class="card SA-342">
+      <a href="/aircraft/dcs/sa-342" class="card">
+        <img src="/img/dcs/SA-342.webp" loading="lazy">
         <div class="name">SA-342M/L<br/>Gazelle</div>
       </a>
-      <a href="/aircraft/dcs/uh-1h" class="card UH-1H">
+      <a href="/aircraft/dcs/uh-1h" class="card">
+        <img src="/img/dcs/UH-1H.webp" loading="lazy">
         <div class="name">UH-1H<br/>Huey</div>
       </a>
     </div>
 
     <h2>World War II</h2>
     <div class="cards">
-      <a href="/aircraft/dcs/bf109k-4" class="card Bf109K-4">
+      <a href="/aircraft/dcs/bf109k-4" class="card">
+        <img src="/img/dcs/Bf.109K-4.webp" loading="lazy">
         <div class="name">Bf.109K-4<br/>Kurfürst</div>
       </a>
-      <a href="/aircraft/dcs/fw-190a-8" class="card FW-190-A8">
+      <a href="/aircraft/dcs/fw-190a-8" class="card">
+        <img src="/img/dcs/FW-190-A8.webp" loading="lazy">
         <div class="name">FW-190-A8<br/>Anton</div>
       </a>
-      <a href="/aircraft/dcs/fw-190-d9" class="card FW-190-D9">
+      <a href="/aircraft/dcs/fw-190-d9" class="card">
+        <img src="/img/dcs/FW-190D-9.webp" loading="lazy">
         <div class="name">FW-190-D9<br/>Dora</div>
       </a>
-      <a href="/aircraft/dcs/dh98" class="card DH98">
+      <a href="/aircraft/dcs/dh98" class="card">
+        <img src="/img/dcs/DH98.webp" loading="lazy">
         <div class="name">DH.98<br/>MOSQUITO FB MK VI</div>
       </a>
-      <a href="/aircraft/dcs/p-47d" class="card P-47D">
+      <a href="/aircraft/dcs/p-47d" class="card">
+        <img src="/img/dcs/P-47D.webp" loading="lazy">
         <div class="name">P-47D<br/>Thunderbolt</div>
       </a>
-      <a href="/aircraft/dcs/p-51d" class="card P-51D">
+      <a href="/aircraft/dcs/p-51d" class="card">
+        <img src="/img/dcs/P-51D.webp" loading="lazy">
         <div class="name">P-51D<br/>Mustang</div>
       </a>
-      <a href="/aircraft/dcs/spitfire-lf-mk-ix" class="card Spitfire_LF_Mk_Ix">
+      <a href="/aircraft/dcs/spitfire-lf-mk-ix" class="card">
+        <img src="/img/dcs/Spitfire_LF_Mk_Ix.webp" loading="lazy">
         <div class="name">Spitfire LF Mk IX</div>
       </a>
-      <a href="/aircraft/dcs/i-16" class="card I-16">
+      <a href="/aircraft/dcs/i-16" class="card">
+        <img src="/img/dcs/I-16.webp" loading="lazy">
         <div class="name">I-16<br/>Ishak</div>
       </a>
     </div>
 
     <h2>Trainers and General Aviation</h2>
     <div class="cards">
-      <a href="/aircraft/dcs/c-101cc" class="card C-101CC">
+      <a href="/aircraft/dcs/c-101cc" class="card">
+        <img src="/img/dcs/C-101CC.webp" loading="lazy">
         <div class="name">C-101CC<br/>Aviojet</div>
       </a>
-      <a href="/aircraft/dcs/hawk-t1a" class="card Hawk_T1A">
+      <a href="/aircraft/dcs/hawk-t1a" class="card">
+        <img src="/img/dcs/Hawk_T.1A.webp" loading="lazy">
         <div class="name">Hawk T.1A</div>
       </a>
-      <a href="/aircraft/dcs/l-39za" class="card L-39ZA">
+      <a href="/aircraft/dcs/l-39za" class="card">
+        <img src="/img/dcs/L-39ZA.webp" loading="lazy">
         <div class="name">L39-ZA<br/>Albatros</div>
       </a>
-      <a href="/aircraft/dcs/yak-52" class="card Yak-52">
+      <a href="/aircraft/dcs/yak-52" class="card">
+        <img src="/img/dcs/Yak-52.webp" loading="lazy">
         <div class="name">Yak-52</div>
       </a>
     </div>
 
     <h1 id="il2-gb">IL-2: Great Battles</h1>
     <div class="cards">
-      <a href="/aircraft/il2-gb" class="card LaGG-3">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/LaGG-3.webp" loading="lazy">
         <div class="name">LaGG-3<br/>Series 29</div>
       </a>
-      <a href="/aircraft/il2-gb" class="card Yak-1">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/Yak-1.webp" loading="lazy">
         <div class="name">Yak-1<br/>Series 69</div>
       </a>
-      <a href="/aircraft/il2-gb" class="card La-5">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/La-5.webp" loading="lazy">
         <div class="name">La-5<br/>Series 8</div>
       </a>
-      <a href="/aircraft/il2-gb" class="card IL-2_Mod_1942">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/IL-2_Mod_1942.webp" loading="lazy">
         <div class="name">IL-2<br/>Mod 1942</div>
       </a>
-      <a href="/aircraft/il2-gb" class="card Pe-2">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/Pe-2.webp" loading="lazy">
         <div class="name">PE-2<br/>Series 87/110</div>
       </a>
-      <a href="/aircraft/il2-gb" class="card Bf109F-4">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/Bf109F-4.webp" loading="lazy">
         <div class="name">Bf.109 F-4<br/>Friedrich</div>
       </a>
-      <a href="/aircraft/il2-gb" class="card Bf109G-2">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/Bf109G-2.webp" loading="lazy">
         <div class="name">Bf.109 G-2<br/>Gustav</div>
       </a>
-      <a href="/aircraft/il2-gb" class="card FW190A-3">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/FW190A-3.webp" loading="lazy">
         <div class="name">FW190A-3<br/>Anton</div>
       </a>
-      <a href="/aircraft/il2-gb" class="card Ju-87D-3">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/Ju-87D-3.webp" loading="lazy">
         <div class="name">Ju-87D-3<br/>Stuka</div>
       </a>
-      <a href="/aircraft/il2-gb" class="card He-111H-6">
+      <a href="/aircraft/il2-gb" class="card">
+        <img src="/img/il2-gb/He-111H-6.webp" loading="lazy">
         <div class="name">He-111H-6<br/>Heinkel</div>
       </a>
     </div>
