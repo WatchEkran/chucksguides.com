@@ -44,7 +44,7 @@
     }
 
     .patreon-button {
-      position: absolute;
+      margin-left: auto;
       right: 0;
       background-color: #FF424D;
       text-decoration: none;
@@ -58,18 +58,37 @@
       padding: 0.4em 0.7em 0.4em 38px;
       transition: transform 0.1s ease-out;
       border: 2px solid white;
+      white-space: nowrap;
     }
     .patreon-button:hover {
       transform: scale(1.05);
+    }
+
+    h1 {
+      margin-top: 0;
+      padding-top: 2.3em;
+    }
+
+    h1:first-of-type {
+      padding-top: 1em;
+    }
+
+    h1 + h2 {
+      margin-top: 0;
     }
 
     h2 {
       margin-top: 2em;
     }
 
+    #dcs {
+      position: absolute;
+      top: 2em;
+    }
+
     .content {
       position: relative;
-      padding-top: 4.1em;
+      padding-top: 4.4em;
     }
 
     .container {
@@ -87,6 +106,7 @@
       top: 0;
       z-index: 1;
       width: 100%;
+      box-shadow: 0 2px 20px 2px rgb(0 0 0 / 20%);
     }
 
     .nav.sticky {
@@ -110,7 +130,7 @@
       color: white;
       display: flex;
       align-items: center;
-      font-size: 1.1em;
+      font-size: max(2vmin, 0.5em);
       text-transform: uppercase;
       transition: padding 0.2s ease-out;
     }
@@ -130,7 +150,11 @@
 
     .nav .dcs {
       background-color: black;
-      height: 30px;
+    }
+
+    .nav .il2-clod {
+      transform: scale(1.15);
+      margin-right: 0.6em;
     }
 
     .cards {
@@ -186,12 +210,16 @@
     <div class="nav">
       <div class="container">
         <a href="#dcs" class="link">
-          <img src="/img/dcs.webp" class="icon dcs">
+          <img src="/img/dcs.webp" class="icon dcs" loading="lazy">
           DCS World
         </a>
         <a href="#il2-gb" class="link">
-          <img src="/img/il2-gb.webp" class="icon il2-gb">
+          <img src="/img/il2-gb.webp" class="icon il2-gb" loading="lazy">
           IL-2: Great Battles
+        </a>
+        <a href="#il2-clod" class="link">
+          <img src="/img/il2-clod.webp" class="icon il2-clod" loading="lazy">
+          Il-2: Cliffs of Dover
         </a>
         <a href="https://www.patreon.com/chucksguides" class="patreon-button">
           Become a Patron
@@ -199,8 +227,10 @@
       </div>
     </div>
 
+    <div id="dcs"></div>
+
     <div class="main">
-      <h1 id="dcs">DCS</h1>
+      <h1>DCS</h1>
       <h2>Jets - 4th Gen</h2>
       <div class="cards">
         <a href="/aircraft/dcs/a-10c" class="card">
@@ -348,6 +378,7 @@
       </div>
 
       <h1 id="il2-gb">IL-2: Great Battles</h1>
+      <h2>Soviet Union Aircraft</h2>
       <div class="cards">
         <a href="/aircraft/il2-gb" class="card">
           <img src="/img/il2-gb/LaGG-3.webp" loading="lazy">
@@ -369,6 +400,10 @@
           <img src="/img/il2-gb/Pe-2.webp" loading="lazy">
           <div class="name">PE-2<br/>Series 87/110</div>
         </a>
+      </div>
+
+      <h2>Axis Aircraft</h2>
+      <div class="cards">
         <a href="/aircraft/il2-gb" class="card">
           <img src="/img/il2-gb/Bf109F-4.webp" loading="lazy">
           <div class="name">Bf.109 F-4<br/>Friedrich</div>
@@ -388,6 +423,60 @@
         <a href="/aircraft/il2-gb" class="card">
           <img src="/img/il2-gb/He-111H-6.webp" loading="lazy">
           <div class="name">He-111H-6<br/>Heinkel</div>
+        </a>
+      </div>
+
+      <h1 id="il2-clod">IL-2: Cliffs of Dover</h1>
+
+      <h2>Allied Aircraft</h2>
+      <div class="cards">
+        <a href="/aircraft/il2-clod/spitfire" class="card">
+          <img src="/img/il2-clod/Spitfire.webp" loading="lazy">
+          <div class="name">Supermarine Spitfire</div>
+        </a>
+        <a href="/aircraft/il2-clod/hurricane" class="card">
+          <img src="/img/il2-clod/Hurricane.webp" loading="lazy">
+          <div class="name">Hawker Hurricane</div>
+        </a>
+        <a href="/aircraft/il2-clod/blenheim" class="card">
+          <img src="/img/il2-clod/Blenheim.webp" loading="lazy">
+          <div class="name">Bristol Blenheim IV</div>
+        </a>
+        <a href="/aircraft/il2-clod/tiger-moth" class="card">
+          <img src="/img/il2-clod/Tiger_Moth.webp" loading="lazy">
+          <div class="name">De Havilland Dh.82A<br/>Tiger Moth II</div>
+        </a>
+      </div>
+
+      <h2>Axis Aircraft</h2>
+      <div class="cards">
+        <a href="/aircraft/il2-clod/bf109" class="card">
+          <img src="/img/il2-clod/Bf109.webp" loading="lazy">
+          <div class="name">Messerschmitt Bf.109<br/>Emil</div>
+        </a>
+        <a href="/aircraft/il2-clod/bf110" class="card">
+          <img src="/img/il2-clod/Bf110.webp" loading="lazy">
+          <div class="name">Messerschmitt Bf.110</div>
+        </a>
+        <a href="/aircraft/il2-clod/stuka" class="card">
+          <img src="/img/il2-clod/Stuka.webp" loading="lazy">
+          <div class="name">Junkers Ju-87 B-2<br/>Stuka</div>
+        </a>
+        <a href="/aircraft/il2-clod/ju-88" class="card">
+          <img src="/img/il2-clod/Ju-88.webp" loading="lazy">
+          <div class="name">Junkers Ju-88 A-1</div>
+        </a>
+        <a href="/aircraft/il2-clod/he-111" class="card">
+          <img src="/img/il2-clod/He-111.webp" loading="lazy">
+          <div class="name">Heinkel He-111 H-2</div>
+        </a>
+        <a href="/aircraft/il2-clod/g50" class="card">
+          <img src="/img/il2-clod/G50.webp" loading="lazy">
+          <div class="name">Fiat G.50 Freccia Serie II</div>
+        </a>
+        <a href="/aircraft/il2-clod/br20" class="card">
+          <img src="/img/il2-clod/BR20.webp" loading="lazy">
+          <div class="name">Fiat BR.20M<br/>Cicogna</div>
         </a>
       </div>
     </div>
