@@ -109,6 +109,10 @@
       box-shadow: 0 2px 20px 2px rgb(0 0 0 / 20%);
     }
 
+    .nav .sticky {
+      display: none;
+    }
+
     .nav.sticky {
       position: fixed;
       top: 0;
@@ -116,8 +120,16 @@
       right: 0;
     }
 
+    .nav.sticky .normal {
+      display: none;
+    }
+
+    .nav.sticky .sticky {
+      display: flex;
+    }
+
     .nav.sticky .link {
-      padding: 0.7em 0.5em;
+      padding: 0.7em;
     }
 
     .nav.sticky .icon {
@@ -125,12 +137,12 @@
     }
 
     .nav .link {
-      padding: 1em 1em;
+      padding: 0.7em 1em;
       text-decoration: none;
       color: white;
       display: flex;
       align-items: center;
-      font-size: max(2vmin, 0.5em);
+      font-size: max(1.7vmin, 0.5em);
       text-transform: uppercase;
       transition: padding 0.2s ease-out;
     }
@@ -155,6 +167,10 @@
     .nav .il2-clod {
       transform: scale(1.15);
       margin-right: 0.6em;
+    }
+
+    .nav .xp11 {
+      background-color: white;
     }
 
     .cards {
@@ -211,15 +227,28 @@
       <div class="container">
         <a href="#dcs" class="link">
           <img src="/img/dcs.webp" class="icon dcs" loading="lazy">
-          DCS World
+          <span class="normal">DCS<br/>World</span>
+          <span class="sticky">DCS</span>
         </a>
         <a href="#il2-gb" class="link">
           <img src="/img/il2-gb.webp" class="icon il2-gb" loading="lazy">
-          IL-2: Great Battles
+          <span class="normal">IL-2<br/>Great Battles</span>
+          <span class="sticky">IL-2: GB</span>
         </a>
         <a href="#il2-clod" class="link">
           <img src="/img/il2-clod.webp" class="icon il2-clod" loading="lazy">
-          Il-2: Cliffs of Dover
+          <span class="normal">Il-2<br/>Cliffs of Dover</span>
+          <span class="sticky">IL-2: CloD</span>
+        </a>
+        <a href="#fsx-p3d" class="link">
+          <img src="/img/fsx-p3d.webp" class="icon fsx-p3d" loading="lazy">
+          <span class="normal">FSX<br/>Prepar3D</span>
+          <span class="sticky">FSX / P3D</span>
+        </a>
+        <a href="#xp11" class="link">
+          <img src="/img/xp11.webp" class="icon xp11" loading="lazy">
+          <span class="normal">X-Plane<br/>11</span>
+          <span class="sticky">XP11</span>
         </a>
         <a href="https://www.patreon.com/chucksguides" class="patreon-button">
           Become a Patron
@@ -477,6 +506,68 @@
         <a href="/aircraft/il2-clod/br20" class="card">
           <img src="/img/il2-clod/BR20.webp" loading="lazy">
           <div class="name">Fiat BR.20M<br/>Cicogna</div>
+        </a>
+      </div>
+
+      <h1 id="fsx-p3d">Microsoft Flight Simulator X / Prepar3D</h1>
+
+      <h2>FSX</h2>
+      <div class="cards">
+        <a href="/aircraft/fsx-p3d/fslabs-a320" class="card">
+          <img src="/img/fsx-p3d/FSLabs-A320.webp" loading="lazy">
+          <div class="name">FS Labs<br/>Airbus A320</div>
+        </a>
+        <a href="/aircraft/fsx-p3d/pmdg-737-800-ng" class="card">
+          <img src="/img/fsx-p3d/PMDG-737-800-NG.webp" loading="lazy">
+          <div class="name">PMDG<br/>Boeing 737-800 NG</div>
+        </a>
+        <a href="/aircraft/fsx-p3d/xtreme-prototypes-cf-105" class="card">
+          <img src="/img/fsx-p3d/Xtreme-Prototypes-CF-105.webp" loading="lazy">
+          <div class="name">Xtreme Prototypes<br/>Avro CF-105 Arrow Mk I</div>
+        </a>
+      </div>
+
+      <h2>Prepar3D</h2>
+      <div class="cards">
+        <a href="/aircraft/fsx-p3d/digital-aviation-crj700er" class="card">
+          <img src="/img/fsx-p3d/Digital-Aviation-CRJ700ER.webp" loading="lazy">
+          <div class="name">Digital Aviation<br/>Bombardier CRJ700ER</div>
+        </a>
+        <a href="/aircraft/fsx-p3d/leonardo-md-82" class="card">
+          <img src="/img/fsx-p3d/Leonardo-MD-82.webp" loading="lazy">
+          <div class="name">Leonardo Softhouse<br/>McDonnell Douglas MD-82</div>
+        </a>
+        <a href="/aircraft/fsx-p3d/majestic-q400" class="card">
+          <img src="/img/fsx-p3d/Majestic-Q400.webp" loading="lazy">
+          <div class="name">Majestic Software<br/>Bombardier Q400</div>
+        </a>
+        <a href="/aircraft/fsx-p3d/pmdg-747-400" class="card">
+          <img src="/img/fsx-p3d/PMDG-747-400.webp" loading="lazy">
+          <div class="name">PMDG<br/>Boeing 747-400</div>
+        </a>
+        <a href="/aircraft/fsx-p3d/pmdg-777-200-lr" class="card">
+          <img src="/img/fsx-p3d/PMDG-777-200-LR.webp" loading="lazy">
+          <div class="name">PMDG<br/>Boeing 777-200 LR</div>
+        </a>
+      </div>
+
+      <h1 id="xp11">X-Plane 11</h1>
+      <div class="cards">
+        <a href="/aircraft/xp11/flight-factor-757-200" class="card">
+          <img src="/img/xp11/Flight-Factor-757-200.webp" loading="lazy">
+          <div class="name">Flight Factor<br/>Boeing 757-200</div>
+        </a>
+        <a href="/aircraft/xp11/flight-factor-767-300er" class="card">
+          <img src="/img/xp11/Flight-Factor-767-300ER.webp" loading="lazy">
+          <div class="name">Flight Factor<br/>Boeing 767-300ER</div>
+        </a>
+        <a href="/aircraft/xp11/flyjsim-727-100" class="card">
+          <img src="/img/xp11/FlyJSim-727-100.webp" loading="lazy">
+          <div class="name">FlyJSim<br/>Boeing 727-100</div>
+        </a>
+        <a href="/aircraft/xp11/flyjsim-737-200" class="card">
+          <img src="/img/xp11/FlyJSim-737-200.webp" loading="lazy">
+          <div class="name">FlyJSim<br/>Boeing 737-200</div>
         </a>
       </div>
     </div>
