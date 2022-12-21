@@ -12,6 +12,14 @@
       }, { threshold: 1 })
 
       observer.observe(element)
+
+      document.querySelectorAll('.nav .link').forEach((element) => {
+        element.addEventListener('click', (e) => {
+          e.preventDefault()
+          document.querySelector(e.target.hash).scrollIntoView()
+          history.replaceState(null, null, e.target.hash)
+        })
+      })
     })
   </script>
 
@@ -144,7 +152,10 @@
       align-items: center;
       font-size: max(1.7vmin, 0.5em);
       text-transform: uppercase;
-      transition: padding 0.2s ease-out;
+    }
+
+    .nav span {
+      pointer-events: none;
     }
 
     .nav .link:hover {
@@ -157,7 +168,6 @@
       pointer-events: none;
       margin-right: 0.5em;
       border-radius: 50%;
-      transition: height 0.2s ease-out;
     }
 
     .nav .dcs {
