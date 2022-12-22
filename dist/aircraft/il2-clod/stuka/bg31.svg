@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
-<rect x="-192" y="-108" width="2304" height="1296" fill="rgb(100%, 100%, 100%)" fill-opacity="1"/>
-<path fill-rule="evenodd" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 0 1080 L 0 0 L 222 0 L 222 1080 Z M 0 1080 "/>
-<path fill-rule="evenodd" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 249.898438 74.101562 L 817.019531 74.101562 L 817.019531 77.21875 L 249.898438 77.21875 Z M 249.898438 74.101562 "/>
-<path fill-rule="evenodd" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 249.898438 410.558594 L 1313.339844 410.558594 L 1313.339844 413.679688 L 249.898438 413.679688 Z M 249.898438 410.558594 "/>
-<path fill-rule="evenodd" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 1089.660156 628.238281 L 1849.980469 628.238281 L 1849.980469 630.640625 L 1089.660156 630.640625 Z M 1089.660156 628.238281 "/>
-<path fill-rule="evenodd" fill="rgb(0%, 0%, 0%)" fill-opacity="1" d="M 295.019531 671.441406 L 1022.941406 671.441406 L 1022.941406 673.839844 L 295.019531 673.839844 Z M 295.019531 671.441406 "/>
-</svg>
