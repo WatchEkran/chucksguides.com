@@ -108,6 +108,53 @@
       top: 2em;
     }
 
+    h1.dcs {
+      display: flex;
+      align-items: center;
+    }
+
+    .announcement-wrapper {
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+      top: 1.6em;
+      transition: all 100ms ease-out;
+    }
+    .announcement-wrapper:hover {
+      transform: scale(1.05);
+      filter: contrast(1.1);
+    }
+
+    .announcement {
+      position: relative;
+      height: 32px;
+      padding: 0 0.5em;
+      background-color: #db2828;
+      color: white;
+      border-top-left-radius: 3px;
+      border-bottom-left-radius: 3px;
+      font-size: 1rem;
+      font-weight: normal;
+      display: inline-flex;
+      align-items: center;
+      margin: 0 auto;
+      text-decoration: none;
+      filter: drop-shadow(2px 2px 0px #b21e1e);
+    }
+    .announcement span {
+      position: relative;
+    }
+    .announcement:after {
+      content: '';
+      border: 16px solid #db2828;
+      border-left-width: 0;
+      border-right-color: transparent;
+      position: absolute;
+      top: 0;
+      left: 100%;
+    }
+
     .content {
       position: relative;
       padding-top: 4.4em;
@@ -310,9 +357,17 @@
     <div id="dcs"></div>
 
     <div class="main">
-      <h1>DCS</h1>
+      <div class="announcement-wrapper">
+        <a href="/aircraft/dcs/ah-64d" class="announcement">
+          <span>The AH-64D Apache guide is now available! Click here to view it.</span>
+        </a>
+      </div>
 
-      <h2>Jets - 4th Gen</h2>
+      <h1 class="dcs">
+        DCS
+      </h1>
+
+      <h2>Jets - Modern</h2>
       <div class="cards">
         <a href="/aircraft/dcs/a-10c" class="card">
           <img src="/img/dcs/A-10C.webp" loading="lazy">
@@ -380,6 +435,10 @@
 
       <h2>Helicopters</h2>
       <div class="cards">
+        <a href="/aircraft/dcs/ah-64d" class="card">
+          <img src="/img/dcs/AH-64D.webp" loading="lazy">
+          <div class="name">AH-64D<br/>Apache</div>
+        </a>
         <a href="/aircraft/dcs/ka-50" class="card">
           <img src="/img/dcs/Ka-50.webp" loading="lazy">
           <div class="name">Ka-50<br/>Black Shark</div>
