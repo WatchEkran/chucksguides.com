@@ -1,7 +1,16 @@
-<script setup>
+<script>
 import Navbar from './Navbar.vue'
 import AircraftCards from './AircraftCards.vue'
-import aircraftList from '../aircraft-list'
+import aircraftData from '../aircraft-data'
+
+export default {
+  components: { Navbar, AircraftCards },
+  computed: {
+    aircraftData() {
+      return aircraftData
+    }
+  }
+}
 </script>
 
 <template lang="pug">
@@ -11,13 +20,13 @@ Navbar
 .content
   h1#dcs DCS
   h2 Jets - Modern
-  AircraftCards(:list="aircraftList.DcsModern")
+  AircraftCards(:list="aircraftData.DcsModern")
 
   h2 Jets - Cold War
-  AircraftCards(:list="aircraftList.DcsColdWar")
+  AircraftCards(:list="aircraftData.DcsColdWar")
 
   h2 Helicopters
-  AircraftCards(:list="aircraftList.DcsHelicopters")
+  AircraftCards(:list="aircraftData.DcsHelicopters")
 </template>
 
 <style lang="stylus">
