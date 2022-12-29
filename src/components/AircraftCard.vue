@@ -7,19 +7,19 @@ export default {
   props: {
     title: { type: String, required: true },
     subtitle: { type: String, default: '' },
-    href: { type: String, required: true },
+    path: { type: String, required: true },
   },
   computed: {
     imageUrl() {
-      const url = urlJoin('/src/assets', this.href, 'image.webp')
-      return new URL(url, import.meta.url).href
+      const url = urlJoin('/src/assets', this.path, 'image.webp')
+      return new URL(url, import.meta.url).path
     }
   }
 }
 </script>
 
 <template lang="pug">
-router-link.card(:to="href")
+router-link.card(:to="path")
   LazyImage.image(:src="imageUrl")
   .name
     .title {{ title }}

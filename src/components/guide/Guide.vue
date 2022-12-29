@@ -3,6 +3,7 @@ import urlJoin from 'url-join'
 import GuideOutline from './GuideOutline.vue'
 import GuidePage from './GuidePage.vue'
 import { aircraftLookup } from '../../aircraft-data.js'
+import { getAssetUrl } from '../../utils'
 
 export default {
   components: { GuideOutline, GuidePage },
@@ -14,27 +15,49 @@ export default {
     return {
       preloadPages: new Set(),
       intersectionObserver: new IntersectionObserver(this.setPreloadPages, { threshold: [0] }),
+      visibleElements: new Set(),
+      currentPage: undefined,
+      scrollDirection: 'down',
+      scrollTop: 0,
     }
+  },
+  mounted() {
+    this.$refs.pages.addEventListener('scroll', (e) => {
+      this.scrollDirection = e.target.scrollTop > this.scrollTop ? 'down' : 'up'
+      this.scrollTop = e.target.scrollTop
+    })
   },
   computed: {
     layoutCssUrl() {
-      return urlJoin('/src/assets', this.aircraftData.href, 'layout.css')
+      return getAssetUrl(this.aircraftData.path, 'layout.css')
     },
     aircraftData() {
       return aircraftLookup[this.game][this.aircraft]
     },
     assetsUrl() {
-      return urlJoin(import.meta.env.VITE_ASSETS_BASE_URL, this.aircraftData.href)
+      return urlJoin(import.meta.env.VITE_ASSETS_BASE_URL, this.aircraftData.path)
     }
   },
   methods: {
     setPreloadPages(entries) {
       entries.forEach((entry) => {
-        console.log(entry.target, entry.isIntersecting ? 'enter' : 'leave')
+        if (entry.isIntersecting) {
+          this.visibleElements.add(entry.target)
+        } else {
+          this.visibleElements.delete(entry.target)
+        }
+      })
+
+      this.setCurrentPage()
+    },
+    setCurrentPage() {
+      this.visibleElements.forEach((element) => {
+        if (element.getBoundingClientRect().top < this.$refs.pages.clientHeight / 2) {
+          this.currentPage = element.id
+        }
       })
     },
     observePage(element) {
-      console.log('observing page', element)
       this.intersectionObserver.observe(element)
     }
   }
@@ -45,14 +68,15 @@ export default {
 link(rel="stylesheet" :href="layoutCssUrl")
 
 #guide
-  GuideOutline(:base-url="aircraftData.href")
-  #pages
-    //-GuidePage(v-for="pageNumber in aircraftData.pageCount" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
+  GuideOutline(:path="aircraftData.path")
+  #pages(ref="pages")
     GuidePage(v-for="pageNumber in 20" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
+    //-GuidePage(v-for="pageNumber in aircraftData.pageCount" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
 </template>
 
 <style lang="stylus">
 #guide
+  position: relative
   display: flex
   height: 100vh
 

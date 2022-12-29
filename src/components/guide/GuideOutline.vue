@@ -1,15 +1,15 @@
 <script>
-import urlJoin from 'url-join'
+import { getAssetUrl } from '../../utils'
 
 export default {
   props: {
-    baseUrl: { type: String, required: true },
+    path: { type: String, required: true },
   },
   data: () => ({
     outlineHtml: undefined,
   }),
   async created() {
-    const response = await fetch(urlJoin('/src/assets', this.baseUrl, 'outline.html'))
+    const response = await fetch(getAssetUrl(this.path, 'outline.html'))
     const rawHtml = await response.text()
 
     var wrapper = document.createElement('div')
