@@ -2,7 +2,7 @@ import urlJoin from 'url-join'
 
 // Get URL to files in the /src/assets folder.
 export function getAssetUrl() {
-  return urlJoin('/src/assets', ...arguments)
+  return ''
 }
 
 // Get URL to files on CDN.

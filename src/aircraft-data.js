@@ -1,9 +1,19 @@
+import.meta.glob('/src/assets/**/*.css')
+// const fonts = import.meta.glob('/src/assets/**/*.woff?raw')
+// console.log('modules', modules)
+// Object.entries(modules).forEach(([path, resolver]) => {
+//   console.log('path', path)
+//   console.log('resolver', resolver)
+// })
+// console.log('fonts', fonts)
+
 export const aircraftLookup = {
   dcs: {
     'a-10c': {
       title: 'A-10C',
       subtitle: 'Warthog',
       path: '/aircraft/dcs/a-10c',
+      cssPath: new URL('/src/assets/aircraft/dcs/a-10c/guide.css', import.meta.url).href,
       pageCount: 522,
       hasOutline: true,
     },
@@ -11,6 +21,7 @@ export const aircraftLookup = {
       title: 'AV-8B',
       subtitle: 'Harrier II',
       path: '/aircraft/dcs/av-8b',
+      //cssPath: new URL('/src/assets/aircraft/dcs/av-8b/guide.css', import.meta.url).href,
       imgSrc: '/src/assets/img/dcs/AV-8B.webp',
     },
     'f-14b': {

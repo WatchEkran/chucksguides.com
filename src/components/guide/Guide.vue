@@ -19,7 +19,14 @@ export default {
       currentPage: undefined,
       scrollDirection: 'down',
       scrollTop: 0,
+      layoutCss: undefined,
     }
+  },
+  async created() {
+    // const path = await this.aircraftData.cssPath()
+    // console.log('path', path)
+    console.log(this.aircraftData.cssPath)
+    // this.layoutCss = await path
   },
   mounted() {
     this.$refs.pages.addEventListener('scroll', (e) => {
@@ -29,7 +36,7 @@ export default {
   },
   computed: {
     layoutCssUrl() {
-      return getAssetUrl(this.aircraftData.path, 'layout.css')
+      return this.aircraftData.cssPath
     },
     aircraftData() {
       return aircraftLookup[this.game][this.aircraft]
@@ -65,7 +72,7 @@ export default {
 </script>
 
 <template lang="pug">
-link(rel="stylesheet" :href="layoutCssUrl")
+link(rel="stylesheet" :href="layoutCssUrl" v-if="layoutCss")
 
 #guide
   GuideOutline(:path="aircraftData.path")
