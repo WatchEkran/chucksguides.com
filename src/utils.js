@@ -1,11 +1,11 @@
 import urlJoin from 'url-join'
 
-// Get URL to files in the /src/assets folder.
-export function getAssetUrl() {
-  return ''
+export function getGuideCssUrl(path) {
+  const url = `/src/assets/${path}/guide.css`
+  return new URL(url, import.meta.url).href
 }
 
 // Get URL to files on CDN.
-export function getCdnUrl() {
-  return urlJoin(import.meta.env.VITE_ASSETS_BASE_URL, ...arguments)
+export function getCdnUrl(path, filename) {
+  return urlJoin(import.meta.env.VITE_ASSETS_BASE_URL, path, hash, filename)
 }

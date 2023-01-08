@@ -1,5 +1,5 @@
 <script>
-import { getAssetUrl } from '../../utils'
+import { getCdnUrl } from '../../utils'
 
 export default {
   props: {
@@ -9,7 +9,7 @@ export default {
     outlineHtml: undefined,
   }),
   async created() {
-    const response = await fetch(getAssetUrl(this.path, 'outline.html'))
+    const response = await fetch(getCdnUrl(this.path, 'outline.html'))
     const rawHtml = await response.text()
 
     var wrapper = document.createElement('div')

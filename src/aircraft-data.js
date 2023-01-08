@@ -1,19 +1,30 @@
+/*
+For the guide CSS, we want to do the following when building the app:
+1. For reliable cache busting, add a hash to the CSS file and the font files it uses.
+2. Keep the files as separate chunks so that we can load them only when a particular guide is viewed.
+
+Vite has 2 ways of handling static assets that will hash the files:
+1. Use an import statement, i.e. import css from './guide.css'. However, this will bundle it into the main .css file,
+   and it's difficult to configure Vite/Rollup to split it into a separate file instead.
+2. Use new URL, i.e. const css = new URL('./guide.css', import.meta.url).href. While this will split the CSS into a
+   separate file, it won't follow the URLs in the CSS file itself, so the font files are excluded from the build.
+
+To work around this, we use import.meta.glob(). By default it lazy loads assets, so each file will be built into a
+separate file. It also returns functions that we can call to import assets, but we can't use them because while the
+function will automatically add a <link rel="stylesheet"> to the CSS file, there's no way to remove it afterwards if the
+user is switching to another guide. We work around this second issue by using the new URL, which gives us the URL
+to the correct CSS file and we can manually add a <link>.
+ */
 import.meta.glob('/src/assets/**/*.css')
-// const fonts = import.meta.glob('/src/assets/**/*.woff?raw')
-// console.log('modules', modules)
-// Object.entries(modules).forEach(([path, resolver]) => {
-//   console.log('path', path)
-//   console.log('resolver', resolver)
-// })
-// console.log('fonts', fonts)
 
 export const aircraftLookup = {
   dcs: {
     'a-10c': {
       title: 'A-10C',
       subtitle: 'Warthog',
-      path: '/aircraft/dcs/a-10c',
-      cssPath: new URL('/src/assets/aircraft/dcs/a-10c/guide.css', import.meta.url).href,
+      path: 'aircraft/dcs/a-10c',
+      hash: 'a841cb9d048a429e365fa703a9b131c3',
+      cssUrl: new URL('/src/assets/aircraft/dcs/a-10c/guide.css', import.meta.url).href,
       pageCount: 522,
       hasOutline: true,
     },
@@ -21,7 +32,7 @@ export const aircraftLookup = {
       title: 'AV-8B',
       subtitle: 'Harrier II',
       path: '/aircraft/dcs/av-8b',
-      //cssPath: new URL('/src/assets/aircraft/dcs/av-8b/guide.css', import.meta.url).href,
+      cssPath: new URL('/src/assets/aircraft/dcs/av-8b/guide.css', import.meta.url).href,
       imgSrc: '/src/assets/img/dcs/AV-8B.webp',
     },
     'f-14b': {

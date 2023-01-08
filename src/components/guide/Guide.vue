@@ -3,7 +3,6 @@ import urlJoin from 'url-join'
 import GuideOutline from './GuideOutline.vue'
 import GuidePage from './GuidePage.vue'
 import { aircraftLookup } from '../../aircraft-data.js'
-import { getAssetUrl } from '../../utils'
 
 export default {
   components: { GuideOutline, GuidePage },
@@ -13,52 +12,47 @@ export default {
   },
   data() {
     return {
-      preloadPages: new Set(),
-      intersectionObserver: new IntersectionObserver(this.setPreloadPages, { threshold: [0] }),
-      visibleElements: new Set(),
+      intersectionObserver: new IntersectionObserver(this.updateVisiblePages),
+      visiblePageElements: new Set(),
       currentPage: undefined,
       scrollDirection: 'down',
       scrollTop: 0,
       layoutCss: undefined,
+      pages: [],
     }
   },
-  async created() {
-    // const path = await this.aircraftData.cssPath()
-    // console.log('path', path)
-    console.log(this.aircraftData.cssPath)
-    // this.layoutCss = await path
-  },
   mounted() {
+    // Save the direction that the user is scrolling in.
     this.$refs.pages.addEventListener('scroll', (e) => {
       this.scrollDirection = e.target.scrollTop > this.scrollTop ? 'down' : 'up'
       this.scrollTop = e.target.scrollTop
     })
   },
   computed: {
-    layoutCssUrl() {
-      return this.aircraftData.cssPath
-    },
     aircraftData() {
       return aircraftLookup[this.game][this.aircraft]
     },
-    assetsUrl() {
-      return urlJoin(import.meta.env.VITE_ASSETS_BASE_URL, this.aircraftData.path)
-    }
+    hashPath() {
+      return urlJoin(this.aircraftData.path, this.aircraftData.hash)
+    },
+    cssPath() {
+      return getGuideCssUrl(this.aircraftData.path)
+    },
   },
   methods: {
-    setPreloadPages(entries) {
+    updateVisiblePages(entries) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          this.visibleElements.add(entry.target)
+          this.visiblePageElements.add(entry.target)
         } else {
-          this.visibleElements.delete(entry.target)
+          this.visiblePageElements.delete(entry.target)
         }
       })
 
       this.setCurrentPage()
     },
     setCurrentPage() {
-      this.visibleElements.forEach((element) => {
+      this.visiblePageElements.forEach((element) => {
         if (element.getBoundingClientRect().top < this.$refs.pages.clientHeight / 2) {
           this.currentPage = element.id
         }
@@ -72,13 +66,13 @@ export default {
 </script>
 
 <template lang="pug">
-link(rel="stylesheet" :href="layoutCssUrl" v-if="layoutCss")
+link(rel="stylesheet" :href="cssPath")
 
 #guide
-  GuideOutline(:path="aircraftData.path")
+  GuideOutline(:path="hashPath")
   #pages(ref="pages")
-    GuidePage(v-for="pageNumber in 20" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
-    //-GuidePage(v-for="pageNumber in aircraftData.pageCount" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
+    //-GuidePage(v-for="pageNumber in 20" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
+    GuidePage(v-for="pageNumber in aircraftData.pageCount" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
 </template>
 
 <style lang="stylus">
