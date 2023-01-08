@@ -1,26 +1,21 @@
 <script>
 import urlJoin from 'url-join'
-import LazyImage from './LazyImage.vue'
+import ProgressivePicture from './ProgressivePicture.vue'
 
 export default {
-  components: { LazyImage },
+  components: { ProgressivePicture },
   props: {
     title: { type: String, required: true },
     subtitle: { type: String, default: '' },
     path: { type: String, required: true },
+    imgUrl: { type: String, required: true }
   },
-  computed: {
-    imageUrl() {
-      const url = urlJoin('/src/assets', this.path, 'image.webp')
-      return new URL(url, import.meta.url).path
-    }
-  }
 }
 </script>
 
 <template lang="pug">
 router-link.card(:to="path")
-  LazyImage.image(:src="imageUrl")
+  ProgressivePicture.picture(:src="imgUrl")
   .name
     .title {{ title }}
     .subtitle {{ subtitle }}
@@ -38,7 +33,7 @@ router-link.card(:to="path")
   &:hover
     transform: scale(1.05)
 
-  .image
+  .picture
     width: 100%
     display: block
     pointer-events: none

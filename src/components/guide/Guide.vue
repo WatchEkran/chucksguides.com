@@ -1,7 +1,7 @@
 <script>
 import GuideOutline from './GuideOutline.vue'
 import GuidePage from './GuidePage.vue'
-import { aircraftLookup } from '../../aircraft-data.js'
+import aircraftData from '/src/aircraft-data'
 
 export default {
   components: { GuideOutline, GuidePage },
@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     aircraftData() {
-      return aircraftLookup[this.game][this.aircraft]
+      return aircraftData[this.game][this.aircraft]
     },
     cssPath() {
       return this.aircraftData.cssPath

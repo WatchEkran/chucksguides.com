@@ -1,15 +1,15 @@
 <script>
 import Navbar from './Navbar.vue'
 import AircraftCards from './AircraftCards.vue'
-import aircraftData from '../aircraft-data'
+import { dcs } from '../aircraft-data'
+
+const DcsModern = [
+  dcs['a-10c'],
+]
 
 export default {
   components: { Navbar, AircraftCards },
-  computed: {
-    aircraftData() {
-      return aircraftData
-    }
-  }
+  DcsModern,
 }
 </script>
 
@@ -20,13 +20,7 @@ Navbar
 .content
   h1#dcs DCS
   h2 Jets - Modern
-  AircraftCards(:list="aircraftData.DcsModern")
-
-  h2 Jets - Cold War
-  AircraftCards(:list="aircraftData.DcsColdWar")
-
-  h2 Helicopters
-  AircraftCards(:list="aircraftData.DcsHelicopters")
+  AircraftCards(:list="$options.DcsModern")
 </template>
 
 <style lang="stylus">
