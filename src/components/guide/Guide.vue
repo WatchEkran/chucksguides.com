@@ -1,5 +1,4 @@
 <script>
-import urlJoin from 'url-join'
 import GuideOutline from './GuideOutline.vue'
 import GuidePage from './GuidePage.vue'
 import { aircraftLookup } from '../../aircraft-data.js'
@@ -8,7 +7,7 @@ export default {
   components: { GuideOutline, GuidePage },
   props: {
     game: { type: String, required: true },
-    aircraft: { type: String, required: true }
+    aircraft: { type: String, required: true },
   },
   data() {
     return {
@@ -32,11 +31,8 @@ export default {
     aircraftData() {
       return aircraftLookup[this.game][this.aircraft]
     },
-    hashPath() {
-      return urlJoin(this.aircraftData.path, this.aircraftData.hash)
-    },
     cssPath() {
-      return getGuideCssUrl(this.aircraftData.path)
+      return this.aircraftData.cssPath
     },
   },
   methods: {
@@ -60,8 +56,8 @@ export default {
     },
     observePage(element) {
       this.intersectionObserver.observe(element)
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -69,10 +65,10 @@ export default {
 link(rel="stylesheet" :href="cssPath")
 
 #guide
-  GuideOutline(:path="hashPath")
+  //GuideOutline(:path="hashPath")
   #pages(ref="pages")
-    //-GuidePage(v-for="pageNumber in 20" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
-    GuidePage(v-for="pageNumber in aircraftData.pageCount" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
+    GuidePage(v-for="pageNumber in 20" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
+    //GuidePage(v-for="pageNumber in aircraftData.pageCount" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
 </template>
 
 <style lang="stylus">

@@ -1,6 +1,4 @@
 <script>
-import { getCdnUrl } from '../../utils'
-
 export default {
   props: {
     path: { type: String, required: true },
@@ -9,7 +7,7 @@ export default {
     outlineHtml: undefined,
   }),
   async created() {
-    const response = await fetch(getCdnUrl(this.path, 'outline.html'))
+    const response = await fetch(urlJoin(this.path, 'outline.html'))
     const rawHtml = await response.text()
 
     var wrapper = document.createElement('div')

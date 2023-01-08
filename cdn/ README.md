@@ -1,0 +1,1 @@
+Put static assets for the CDN in this folder. It will be served up at http://localhost:5555.

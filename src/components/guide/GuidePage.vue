@@ -1,6 +1,4 @@
 <script>
-import urlJoin from 'url-join'
-
 export default {
   props: {
     pageNumber: { type: Number, required: true },
