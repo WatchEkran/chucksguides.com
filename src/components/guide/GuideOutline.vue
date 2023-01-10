@@ -1,13 +1,15 @@
 <script>
+import urlJoin from 'url-join'
+
 export default {
   props: {
-    path: { type: String, required: true },
+    baseUrl: { type: String, required: true },
   },
   data: () => ({
     outlineHtml: undefined,
   }),
   async created() {
-    const response = await fetch(urlJoin(this.path, 'outline.html'))
+    const response = await fetch(urlJoin(this.baseUrl, 'outline.html'))
     const rawHtml = await response.text()
 
     var wrapper = document.createElement('div')
@@ -19,13 +21,21 @@ export default {
     })
 
     this.outlineHtml = wrapper.innerHTML
+  },
+  methods: {
+    handleClick(e) {
+      e.preventDefault()
+      if (e.target.hash) {
+        this.$router.replace({ hash: e.target.hash })
+      }
+    }
   }
 }
 </script>
 
 <template lang="pug">
 #sidebar
-  #outline(v-html="outlineHtml")
+  #outline(v-html="outlineHtml" @click="handleClick")
 </template>
 
 <style lang="stylus" scoped>

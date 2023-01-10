@@ -12,9 +12,6 @@ export default {
     pageHtml: undefined,
     isFetched: false,
   }),
-  mounted() {
-    this.$emit('mounted', this.$refs.root)
-  },
   watch: {
     shouldFetchPage() {
       if (this.shouldFetchPage) {
@@ -49,7 +46,7 @@ export default {
 </script>
 
 <template lang="pug">
-.pf.w0.h0(ref="root" :id="`page${pageNumber}`" v-html="isVisible ? pageHtml : ''" :data-page-number="pageNumber")
+.pf.w0.h0(:id="`page${pageNumber}`" v-html="isVisible ? pageHtml : ''" :data-page-number="pageNumber")
 </template>
 
 <style lang="stylus">

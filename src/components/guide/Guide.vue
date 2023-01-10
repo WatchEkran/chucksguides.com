@@ -17,8 +17,7 @@ export default {
       visiblePageElements: [],
       currentPage: undefined,
       scrollDirection: 'down',
-      pageElements: [],
-      pagesElement: undefined,
+      pagesWrapper: undefined,
     }
   },
   created() {
@@ -26,7 +25,13 @@ export default {
     setPageTitle(name ? `${designation} ${name}` : designation)
   },
   mounted() {
-    this.pagesElement = this.$refs.pages
+    this.pagesWrapper = this.$refs.pages
+    this.scrollToPage(this.$route.hash)
+  },
+  watch: {
+    '$route.hash'() {
+      this.scrollToPage(this.$route.hash)
+    }
   },
   computed: {
     aircraft() {
@@ -54,8 +59,12 @@ export default {
       this.currentPage = parseInt(target.dataset.pageNumber)
       this.scrollDirection = boundingClientRect.y < 0 ? 'up' : 'down'
     },
-    observePage(element) {
-      this.pageElements.push(element)
+    scrollToPage(pageId) {
+      if (pageId) {
+        this.$refs.pages.querySelector(pageId).scrollIntoView()
+      } else {
+        this.$refs.pages.scrollTo(0, 0)
+      }
     },
   },
 }
@@ -64,34 +73,32 @@ export default {
 <template lang="pug">
 link(rel="stylesheet" :href="cssUrl")
 
-template(v-if="pagesElement")
+template(v-if="pagesWrapper")
   intersection-observer(
-    :root="pagesElement"
+    :root="pagesWrapper"
     root-margin="-50% 0% -50% 0%"
-    :elements="pageElements"
+    :elements="[...pagesWrapper.children]"
     @intersect-in="setCurrentPage"
   )
   intersection-observer(
-    :root="pagesElement"
+    :root="pagesWrapper"
     root-margin="50% 0% 50% 0%"
-    :elements="pageElements"
+    :elements="[...pagesWrapper.children]"
     @intersect-in="addVisiblePage"
     @intersect-out="removeVisiblePage"
   )
 
 #guide
-  //GuideOutline(:path="hashPath")
+  GuideOutline(:base-url="assetsUrl")
   h1(style="position: absolute; z-index: 1") Current Page: {{ currentPage }}, Scroll Direction: {{ scrollDirection }}
   #pages(ref="pages")
     GuidePage(
-      v-for="pageNumber in 20"
+      v-for="pageNumber in aircraft.pageCount"
       :page-number="pageNumber"
       :base-url="assetsUrl"
-      @mounted="observePage"
       :should-fetch-page="visiblePageNumbers.includes(pageNumber)"
       :is-visible="visiblePageNumbers.includes(pageNumber)"
     )
-    //GuidePage(v-for="pageNumber in aircraftData.pageCount" :page-number="pageNumber" :base-url="assetsUrl" @mounted="observePage")
 </template>
 
 <style lang="stylus">
