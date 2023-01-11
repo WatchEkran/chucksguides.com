@@ -5,9 +5,10 @@ import aircraftData from '/src/aircraft-data'
 import { setPageTitle } from '../../utils.js'
 import urlJoin from 'url-join'
 import IntersectionObserver from './IntersectionObserver.vue'
+import GuideCss from './GuideCss.vue'
 
 export default {
-  components: { IntersectionObserver, GuideOutline, GuidePage },
+  components: { GuideCss, IntersectionObserver, GuideOutline, GuidePage },
   props: {
     game: { type: String, required: true },
     designation: { type: String, required: true },
@@ -31,7 +32,7 @@ export default {
   watch: {
     '$route.hash'() {
       this.scrollToPage(this.$route.hash)
-    }
+    },
   },
   computed: {
     aircraft() {
@@ -40,9 +41,6 @@ export default {
     assetsUrl() {
       const { path, hash } = this.aircraft
       return urlJoin(import.meta.env.VITE_ASSETS_BASE_URL, path, hash)
-    },
-    cssUrl() {
-      return urlJoin(this.assetsUrl, 'guide.css')
     },
     visiblePageNumbers() {
       return this.visiblePageElements.map((element) => parseInt(element.dataset.pageNumber))
@@ -71,7 +69,7 @@ export default {
 </script>
 
 <template lang="pug">
-link(rel="stylesheet" :href="cssUrl")
+GuideCss(:base-url="assetsUrl")
 
 template(v-if="pagesWrapper")
   intersection-observer(
