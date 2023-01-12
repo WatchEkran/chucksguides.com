@@ -14,6 +14,7 @@ export default {
     pageHtml: undefined,
     isFetched: false,
     isLoading: false,
+    errorMessage: '',
   }),
   watch: {
     shouldFetchPage() {
@@ -31,19 +32,26 @@ export default {
       this.isFetched = true
       this.isLoading = true
       const url = urlJoin(this.baseUrl, `${this.pageNumber}.page.html`)
-      const data = await fetch(url)
-      const rawHtml = await data.text()
-      // Create an in-memory element so that we can edit the page HTML.
-      const wrapper = document.createElement('div')
-      wrapper.innerHTML = rawHtml
-      // Change the image src and make it lazy loading and async decoding.
-      const img = wrapper.querySelector('img')
-      img.setAttribute('src', urlJoin(this.baseUrl, img.getAttribute('src')))
-      //img.loading = 'lazy'
-      //img.decoding = 'async'
-      // Return just the .pc (page content), there's some metadata in the HTML that we don't need.
-      this.pageHtml = wrapper.querySelector('.pc').outerHTML
+
+      const response = await fetch(url)
       this.isLoading = false
+
+      if (response.ok) {
+        const rawHtml = await response.text()
+        // Create an in-memory element so that we can edit the page HTML.
+        const wrapper = document.createElement('div')
+        wrapper.innerHTML = rawHtml
+        // Change the image src and make it lazy loading and async decoding.
+        const img = wrapper.querySelector('img')
+        img.setAttribute('src', urlJoin(this.baseUrl, img.getAttribute('src')))
+        //img.loading = 'lazy'
+        //img.decoding = 'async'
+        // Return just the .pc (page content), there's some metadata in the HTML that we don't need.
+        this.pageHtml = wrapper.querySelector('.pc').outerHTML
+      }
+      else {
+        this.errorMessage = response.statusText
+      }
     },
   },
 }
@@ -52,6 +60,11 @@ export default {
 <template lang="pug">
 .pf.w0.h0(:id="`page${pageNumber}`" :data-page-number="pageNumber")
   LoadingIndicator(v-if="isLoading")
+
+  .loading-error(v-else-if="errorMessage")
+    .material-icons cloud_off
+    .error-message {{ errorMessage }}
+
   .wrapper(v-else-if="isVisible" v-html="pageHtml")
 </template>
 
@@ -71,4 +84,7 @@ export default {
   background-color: red
   width: 100%
   height: 1px
+
+.loading-error
+  text-align: center
 </style>

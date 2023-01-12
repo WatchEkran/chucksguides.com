@@ -6,9 +6,10 @@ import { setPageTitle } from '../../utils.js'
 import urlJoin from 'url-join'
 import IntersectionObserver from './IntersectionObserver.vue'
 import GuideCss from './GuideCss.vue'
+import GuideNavbar from './GuideNavbar.vue'
 
 export default {
-  components: { GuideCss, IntersectionObserver, GuideOutline, GuidePage },
+  components: { GuideNavbar, GuideCss, IntersectionObserver, GuideOutline, GuidePage },
   props: {
     game: { type: String, required: true },
     designation: { type: String, required: true },
@@ -16,7 +17,7 @@ export default {
   data() {
     return {
       visiblePageElements: [],
-      currentPage: undefined,
+      currentPage: 1,
       scrollDirection: 'down',
       pagesWrapper: undefined,
     }
@@ -87,11 +88,12 @@ template(v-if="pagesWrapper")
   )
 
 #guide
-  GuideOutline(:base-url="assetsUrl")
+  GuideNavbar#navbar(:current-page="currentPage" :page-count="aircraft.pageCount")
+  GuideOutline#outline(:base-url="assetsUrl")
   h1(style="position: absolute; z-index: 1") Current Page: {{ currentPage }}, Scroll Direction: {{ scrollDirection }}
   #pages(ref="pages")
     GuidePage(
-      v-for="pageNumber in aircraft.pageCount"
+      v-for="pageNumber in 10"
       :page-number="pageNumber"
       :base-url="assetsUrl"
       :should-fetch-page="visiblePageNumbers.includes(pageNumber)"
@@ -101,11 +103,18 @@ template(v-if="pagesWrapper")
 
 <style lang="stylus">
 #guide
-  position: relative
-  display: flex
+  display: grid
+  grid-template-areas: "navbar navbar"\
+                       "sidebar pages"
   height: 100vh
 
+#navbar
+  grid-area: navbar
+#outline
+  grid-area: sidebar
+
 #pages
+  grid-area: pages
   flex: 1
   overflow: auto
 </style>
