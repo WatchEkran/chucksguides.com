@@ -15,11 +15,14 @@ export default {
     isFetched: false,
     isLoading: false,
     errorMessage: '',
+    timer: undefined,
   }),
   watch: {
     shouldFetchPage() {
       if (this.shouldFetchPage) {
-        this.fetchPage()
+        this.timer = setTimeout(this.fetchPage, 100)
+      } else {
+        clearTimeout(this.timer)
       }
     },
   },

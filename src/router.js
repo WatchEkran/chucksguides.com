@@ -12,17 +12,17 @@ const router = createRouter({
       path: '/aircraft/:game/:designation',
       component: Guide,
       props: true,
-      beforeEnter({ params }) {
-        const aircraft = aircraftData?.[params.game]?.[params.designation]
+      beforeEnter(to) {
+        const aircraft = aircraftData?.[to.params.game]?.[to.params.designation]
 
         if (!aircraft) {
           return {
             name: 'NotFound',
             // preserve current path and remove the first char to avoid the target URL starting with `//`
-            params: { pathMatch: this.$route.path.substring(1).split('/') },
+            params: { pathMatch: to.path.substring(1).split('/') },
             // preserve existing query and hash if any
-            query: this.$route.query,
-            hash: this.$route.hash,
+            query: to.query,
+            hash: to.hash,
           }
         }
       },

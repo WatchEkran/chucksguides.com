@@ -9,5 +9,11 @@ export default {
 </script>
 
 <template lang="pug">
-h1 Page Not Found
+h1.not-found 404 Page Not Found
 </template>
+
+<style lang="stylus" scoped>
+.not-found
+  text-align: center
+  margin-top: 2em
+</style>

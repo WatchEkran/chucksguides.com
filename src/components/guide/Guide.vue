@@ -2,7 +2,7 @@
 import GuideOutline from './GuideOutline.vue'
 import GuidePage from './GuidePage.vue'
 import aircraftData from '/src/aircraft-data'
-import { setPageTitle } from '../../utils.js'
+import { getPageNumberFromHash, setPageTitle } from '../../utils.js'
 import urlJoin from 'url-join'
 import IntersectionObserver from './IntersectionObserver.vue'
 import GuideCss from './GuideCss.vue'
@@ -28,11 +28,15 @@ export default {
   },
   mounted() {
     this.pagesWrapper = this.$refs.pages
-    this.scrollToPage(this.$route.hash)
+    this.currentPage = getPageNumberFromHash(this.$route.hash)
+    this.scrollToCurrentPage()
   },
   watch: {
     '$route.hash'() {
-      this.scrollToPage(this.$route.hash)
+      this.currentPage = getPageNumberFromHash(this.$route.hash)
+    },
+    currentPage() {
+      this.$router.replace({ hash: `#page${this.currentPage}` })
     },
   },
   computed: {
@@ -58,12 +62,12 @@ export default {
       this.currentPage = parseInt(target.dataset.pageNumber)
       this.scrollDirection = boundingClientRect.y < 0 ? 'up' : 'down'
     },
-    scrollToPage(pageId) {
-      if (pageId) {
-        this.$refs.pages.querySelector(pageId).scrollIntoView()
-      } else {
-        this.$refs.pages.scrollTo(0, 0)
-      }
+    setCurrentPageAndScrollIntoView(pageNumber) {
+      this.currentPage = pageNumber
+      this.scrollToCurrentPage()
+    },
+    scrollToCurrentPage() {
+      document.getElementById(`page${this.currentPage}`).scrollIntoView()
     },
   },
 }
@@ -73,12 +77,14 @@ export default {
 GuideCss(:base-url="assetsUrl")
 
 template(v-if="pagesWrapper")
+  // Triggers when the page crosses the horizontal center of the viewport. Used to set the current page.
   intersection-observer(
     :root="pagesWrapper"
     root-margin="-50% 0% -50% 0%"
     :elements="[...pagesWrapper.children]"
     @intersect-in="setCurrentPage"
   )
+  // Triggers when the page is in or close to the viewport. Used to preload and render the pages.
   intersection-observer(
     :root="pagesWrapper"
     root-margin="50% 0% 50% 0%"
@@ -88,7 +94,7 @@ template(v-if="pagesWrapper")
   )
 
 #guide
-  GuideNavbar#navbar(:current-page="currentPage" :page-count="aircraft.pageCount")
+  GuideNavbar#navbar(:current-page="currentPage" :page-count="aircraft.pageCount" @page-change="setCurrentPageAndScrollIntoView")
   GuideOutline#outline(:base-url="assetsUrl")
   h1(style="position: absolute; z-index: 1") Current Page: {{ currentPage }}, Scroll Direction: {{ scrollDirection }}
   #pages(ref="pages")
