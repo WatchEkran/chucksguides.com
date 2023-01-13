@@ -18,6 +18,7 @@ export default {
     return {
       visiblePageElements: [],
       currentPage: 1,
+      currentZoom: 1,
       scrollDirection: 'down',
       pagesWrapper: undefined,
     }
@@ -28,6 +29,18 @@ export default {
   },
   mounted() {
     this.pagesWrapper = this.$refs.pages
+
+    const wrapperWidth = this.pagesWrapper.clientWidth
+    const wrapperHeight = this.pagesWrapper.clientHeight
+    const pageWidth = this.pagesWrapper.children[0].clientWidth
+    const pageHeight = this.pagesWrapper.children[0].clientHeight
+
+    if (wrapperWidth > wrapperHeight) {
+      this.currentZoom = wrapperHeight / pageHeight
+    } else {
+      this.currentZoom = wrapperWidth / pageWidth
+    }
+
     this.currentPage = getPageNumberFromHash(this.$route.hash)
     this.scrollToCurrentPage()
   },
@@ -94,7 +107,12 @@ template(v-if="pagesWrapper")
   )
 
 #guide
-  GuideNavbar#navbar(:current-page="currentPage" :page-count="aircraft.pageCount" @page-change="setCurrentPageAndScrollIntoView")
+  GuideNavbar#navbar(
+    :current-page="currentPage"
+    :page-count="aircraft.pageCount"
+    v-model:currentZoom="currentZoom"
+    @page-change="setCurrentPageAndScrollIntoView"
+  )
   GuideOutline#outline(:base-url="assetsUrl")
   h1(style="position: absolute; z-index: 1") Current Page: {{ currentPage }}, Scroll Direction: {{ scrollDirection }}
   #pages(ref="pages")
@@ -104,6 +122,7 @@ template(v-if="pagesWrapper")
       :base-url="assetsUrl"
       :should-fetch-page="visiblePageNumbers.includes(pageNumber)"
       :is-visible="visiblePageNumbers.includes(pageNumber)"
+      :zoom="currentZoom"
     )
 </template>
 
