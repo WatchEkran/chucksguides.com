@@ -43,6 +43,8 @@ export default {
   position: unset
   width: 300px
 
-#outline a
-  white-space: normal
+#outline
+  background-color: black
+  & a
+    white-space: normal
 </style>

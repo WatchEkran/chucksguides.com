@@ -62,6 +62,7 @@ export default {
         //img.decoding = 'async'
         // Return just the .pc (page content), there's some metadata in the HTML that we don't need.
         this.pageHtml = wrapper.querySelector('.pc').outerHTML
+        this.$refs.page.innerHTML = this.pageHtml
       } else {
         this.errorMessage = response.statusText
       }
@@ -71,14 +72,14 @@ export default {
 </script>
 
 <template lang="pug">
+component(is="style")
+  | .pc { transform: scale({{ zoom }}) }
 .pf.w0.h0(ref="page" :id="`page${pageNumber}`" :data-page-number="pageNumber" :style="zoomStyle")
   LoadingIndicator(v-if="isLoading")
 
   .loading-error(v-else-if="errorMessage")
     .material-symbols-outlined cloud_off
     .error-message {{ errorMessage }}
-
-  .wrapper(v-else-if="isVisible" v-html="pageHtml")
 </template>
 
 <style lang="stylus">

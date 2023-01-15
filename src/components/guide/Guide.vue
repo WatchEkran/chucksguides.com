@@ -32,14 +32,12 @@ export default {
 
     const wrapperWidth = this.pagesWrapper.clientWidth
     const wrapperHeight = this.pagesWrapper.clientHeight
-    const pageWidth = this.pagesWrapper.children[0].clientWidth
-    const pageHeight = this.pagesWrapper.children[0].clientHeight
+    const pageWidth = this.pagesWrapper.children[1].clientWidth
+    const pageHeight = this.pagesWrapper.children[1].clientHeight
+    const widthScale = wrapperWidth / pageWidth
+    const heightScale = wrapperHeight / pageHeight
 
-    if (wrapperWidth > wrapperHeight) {
-      this.currentZoom = wrapperHeight / pageHeight
-    } else {
-      this.currentZoom = wrapperWidth / pageWidth
-    }
+    this.currentZoom = Math.min(widthScale, heightScale)
 
     this.currentPage = getPageNumberFromHash(this.$route.hash)
     this.scrollToCurrentPage()
@@ -132,6 +130,7 @@ template(v-if="pagesWrapper")
   grid-template-areas: "navbar navbar"\
                        "sidebar pages"
   height: 100vh
+  grid-template-columns: 300px 1fr
 
 #navbar
   grid-area: navbar
@@ -140,6 +139,4 @@ template(v-if="pagesWrapper")
 
 #pages
   grid-area: pages
-  flex: 1
-  overflow: auto
 </style>
