@@ -35,7 +35,6 @@ export default {
 
 <style lang="stylus" scoped>
 .navbar
-  height: 40px
   background-color: black
   color: white
   display: flex

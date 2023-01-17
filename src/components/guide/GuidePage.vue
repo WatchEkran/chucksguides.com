@@ -9,7 +9,6 @@ export default {
     baseUrl: { type: String, required: true },
     shouldFetchPage: { type: Boolean, required: true },
     isVisible: { type: Boolean, required: true },
-    zoom: { type: Number, required: true },
   },
   data: () => ({
     pageHtml: undefined,
@@ -26,14 +25,6 @@ export default {
         this.timer = setTimeout(this.fetchPage, 100)
       } else {
         clearTimeout(this.timer)
-      }
-    },
-  },
-  computed: {
-    zoomStyle() {
-      return {
-        width: `${this.initialHeight * this.zoom}px`,
-        height: `${this.initialWidth * this.zoom}px`,
       }
     },
   },
@@ -72,9 +63,7 @@ export default {
 </script>
 
 <template lang="pug">
-component(is="style")
-  | .pc { transform: scale({{ zoom }}) }
-.pf.w0.h0(ref="page" :id="`page${pageNumber}`" :data-page-number="pageNumber" :style="zoomStyle")
+.pf.w0.h0(ref="page" :id="`page${pageNumber}`" :data-page-number="pageNumber")
   LoadingIndicator(v-if="isLoading")
 
   .loading-error(v-else-if="errorMessage")
@@ -86,12 +75,41 @@ component(is="style")
 .wrapper
   display: contents
 
+// Page wrapper
 .pf
+  position: relative
   width: 960px
   height: 540px
   display: flex
   align-items: center
   justify-content: center
+  margin: 1.5em auto
+  box-shadow: 1px 1px 3px 1px #333
+
+// Page contents
+.pc
+  position: absolute
+  transform-origin: 0 0
+  left: 0
+  top: 0
+
+// Background image
+.bf
+  position: absolute
+  width: 100%
+  height: 100%
+
+// Content wrapper
+.c
+  position: absolute
+
+// Text
+.t
+  position: absolute
+  white-space: pre
+  transform-origin: 0 100%
+  unicode-bidi: bidi-override
+  font-feature-settings: 'liga' 0
 
 .anchor
   transform: translateY(-20vh)

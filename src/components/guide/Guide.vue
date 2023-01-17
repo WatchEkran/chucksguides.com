@@ -7,9 +7,10 @@ import urlJoin from 'url-join'
 import IntersectionObserver from './IntersectionObserver.vue'
 import GuideCss from './GuideCss.vue'
 import GuideNavbar from './GuideNavbar.vue'
+import GuideSidebar from './GuideSidebar.vue'
 
 export default {
-  components: { GuideNavbar, GuideCss, IntersectionObserver, GuideOutline, GuidePage },
+  components: { GuideSidebar, GuideNavbar, GuideCss, IntersectionObserver, GuideOutline, GuidePage },
   props: {
     game: { type: String, required: true },
     designation: { type: String, required: true },
@@ -32,8 +33,8 @@ export default {
 
     const wrapperWidth = this.pagesWrapper.clientWidth
     const wrapperHeight = this.pagesWrapper.clientHeight
-    const pageWidth = this.pagesWrapper.children[1].clientWidth
-    const pageHeight = this.pagesWrapper.children[1].clientHeight
+    const pageWidth = this.pagesWrapper.querySelector('.pf').clientWidth
+    const pageHeight = this.pagesWrapper.querySelector('.pf').clientHeight
     const widthScale = wrapperWidth / pageWidth
     const heightScale = wrapperHeight / pageHeight
 
@@ -87,6 +88,10 @@ export default {
 <template lang="pug">
 GuideCss(:base-url="assetsUrl")
 
+component(is="style")
+  | .pf { width: calc(960px * {{ currentZoom }}); height: calc(540px * {{ currentZoom }}) }
+  | .pc { transform: scale({{ currentZoom }}) }
+
 template(v-if="pagesWrapper")
   // Triggers when the page crosses the horizontal center of the viewport. Used to set the current page.
   intersection-observer(
@@ -111,16 +116,18 @@ template(v-if="pagesWrapper")
     v-model:currentZoom="currentZoom"
     @page-change="setCurrentPageAndScrollIntoView"
   )
-  GuideOutline#outline(:base-url="assetsUrl")
-  h1(style="position: absolute; z-index: 1") Current Page: {{ currentPage }}, Scroll Direction: {{ scrollDirection }}
+
+  GuideSidebar(:base-url="assetsUrl")
+
   #pages(ref="pages")
+    a(:href="aircraft.pdfUrl") Download PDF
+
     GuidePage(
-      v-for="pageNumber in 10"
+      v-for="pageNumber in 20"
       :page-number="pageNumber"
       :base-url="assetsUrl"
       :should-fetch-page="visiblePageNumbers.includes(pageNumber)"
       :is-visible="visiblePageNumbers.includes(pageNumber)"
-      :zoom="currentZoom"
     )
 </template>
 
@@ -131,6 +138,7 @@ template(v-if="pagesWrapper")
                        "sidebar pages"
   height: 100vh
   grid-template-columns: 300px 1fr
+  grid-template-rows: 40px 1fr
 
 #navbar
   grid-area: navbar
@@ -139,4 +147,5 @@ template(v-if="pagesWrapper")
 
 #pages
   grid-area: pages
+  overflow: auto
 </style>

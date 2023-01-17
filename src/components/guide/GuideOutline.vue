@@ -27,6 +27,7 @@ export default {
       e.preventDefault()
       if (e.target.hash) {
         this.$router.replace({ hash: e.target.hash })
+        document.querySelector(e.target.hash).scrollIntoView(true)
       }
     }
   }
@@ -34,17 +35,28 @@ export default {
 </script>
 
 <template lang="pug">
-#sidebar
-  #outline(v-html="outlineHtml" @click="handleClick")
+#outline(v-html="outlineHtml" @click="handleClick")
 </template>
 
-<style lang="stylus" scoped>
-#sidebar
-  position: unset
-  width: 300px
-
+<style lang="stylus">
 #outline
-  background-color: black
-  & a
-    white-space: normal
+  font-size: 0.9em
+
+  ul
+    padding: 0 1.2em
+
+  li
+    list-style-type: none
+    margin: 0.7em 0
+
+    ul
+      margin-left: 1em
+      padding-left: 0
+
+  a, a:visited
+    color: #e8e8e8
+    text-decoration: none
+
+  a:hover
+    color: white
 </style>
