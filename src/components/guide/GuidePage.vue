@@ -49,8 +49,8 @@ export default {
         // Change the image src and make it lazy loading and async decoding.
         const img = wrapper.querySelector('img')
         img.setAttribute('src', urlJoin(this.baseUrl, img.getAttribute('src')))
-        //img.loading = 'lazy'
-        //img.decoding = 'async'
+        img.loading = 'lazy'
+        img.decoding = 'async'
         // Return just the .pc (page content), there's some metadata in the HTML that we don't need.
         this.pageHtml = wrapper.querySelector('.pc').outerHTML
         this.$refs.page.innerHTML = this.pageHtml
@@ -71,11 +71,24 @@ export default {
     .error-message {{ errorMessage }}
 </template>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .wrapper
   display: contents
 
-// Page wrapper
+.anchor
+  transform: translateY(-20vh)
+  background-color: red
+  width: 100%
+  height: 1px
+
+.loading-error
+  text-align: center
+</style>
+
+<style lang="stylus">
+// These styles were copied over from pdf2htmlEX's base.min.css.
+
+// Page frame, wrapper for the page contents.
 .pf
   position: relative
   width: 960px
@@ -86,14 +99,14 @@ export default {
   margin: 1.5em auto
   box-shadow: 1px 1px 3px 1px #333
 
-// Page contents
+// Page contents.
 .pc
   position: absolute
   transform-origin: 0 0
   left: 0
   top: 0
 
-// Background image
+// Background frame, wrapper for the background image.
 .bf
   position: absolute
   width: 100%
@@ -110,13 +123,4 @@ export default {
   transform-origin: 0 100%
   unicode-bidi: bidi-override
   font-feature-settings: 'liga' 0
-
-.anchor
-  transform: translateY(-20vh)
-  background-color: red
-  width: 100%
-  height: 1px
-
-.loading-error
-  text-align: center
 </style>
