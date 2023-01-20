@@ -10,6 +10,12 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
+    "cheerio": "^1.0.0-rc.12",
+    "command-line-args": "^5.2.1",
+    "find-root": "^1.1.0",
+    "lodash": "^4.17.21",
+    "md5-file": "^5.0.0",
+    "pdfinfo": "^0.0.3",
     "prettier": "^2.8.2",
     "pug": "^3.0.2",
     "stylus": "^0.59.0",

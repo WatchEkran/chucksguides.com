@@ -1,12 +1,13 @@
-import { spawnSync } from 'child_process'
 import path from 'path'
 import * as cheerio from 'cheerio'
 import fs from 'fs'
 import urlJoin from 'url-join'
 import commandLineArgs from 'command-line-args'
 import aircraftData from '../src/aircraft-data.json' assert { type: 'json' }
-import md5File from 'md5-file'
 import os from 'os'
+import runPdf2htmlEX from './run-pdf2htmlEX.js'
+import getPdfMetadata from './get-pdf-metadata.js'
+import findRoot from 'find-root'
 
 const cliArgs = commandLineArgs([
   { name: 'file', defaultOption: true },
@@ -15,42 +16,18 @@ const cliArgs = commandLineArgs([
 ])
 
 // Absolute path to the input file, i.e. '/home/user/pdfs/a-10c.pdf'
-const filePath = cliArgs.file.replace(/~/, os.homedir())
-// Repo's root folder + /tmp, i.e. '/home/user/projects/chucksguides.com/tmp'
-const tempFolder = path.join(path.dirname(process.cwd()), 'tmp')
-// MD5 hash of the input file.
-const md5hash = md5File.sync(filePath)
-// Asset path of the aircraft, i.e. 'aircraft/dcs/a-10c'
-const aircraftPath = aircraftData[cliArgs.game][cliArgs.designation]?.path
-if (!aircraftPath) {
-  console.error(`Aircraft path not found for game: ${cliArgs.game}, designation: ${cliArgs.designation}`)
-  process.exit()
-}
+const pathToPdf = cliArgs.file.replace(/~/, os.homedir())
+const metadata = await getPdfMetadata(pathToPdf)
+// Absolute path to save the PDF output to, i.e. '/home/user/chucksguides.com/tmp/aircraft/dcs/a-10c/abcdefghijklmnop'
+const outputFolder = path.join(findRoot(process.cwd()), 'tmp', metadata.outputPath)
+console.log(`Saving output to folder: ${outputFolder}`)
 
-// Sub-folder to save the PDF output to, i.e. 'aircraft/dcs/a-10c/abcdefghijklmnop'
-const basePath = path.join(aircraftPath, md5hash)
-// Absolute path to save the PDF output to, i.e. '/home/user/aircraft/dcs/a-10c/abcdefghijklmnop'
-const outputFolder = urlJoin(tempFolder, basePath)
-
-const args = [
-  filePath,
-  '--embed=cfijo',
-  '--split-pages=1',
-  '--page-filename=%d.page.html',
-  '--outline-filename=outline.html',
-  '--css-filename=guide.css',
-  '--bg-format=svg',
-  '--optimize-text=1',
-  `--dest-dir=${outputFolder}`,
-  '--external-hint-tool=ttfautohint',
-  '--turn-off-ligatures=1',
-]
-
-spawnSync('pdf2htmlEX', args, { stdio: 'inherit' })
+// Generate the HTML from the PDF.
+runPdf2htmlEX(pathToPdf, outputFolder)
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-const baseUrl = urlJoin(aircraftData.metadata.assetsBaseUrl, basePath)
+const baseUrl = urlJoin(aircraftData.metadata.assetsBaseUrl, metadata.outputPath)
 const pageFiles = fs.readdirSync(outputFolder).filter((file) => file.endsWith('.page.html'))
 let currentPage = 1
 pageFiles.forEach((file) => {
@@ -74,6 +51,7 @@ console.log('\n')
 
 // ---------------------------------------------------------------------------------------------------------------------
 
+// TODO: Modify outline.html to change the page numbering from hex to dec
 // TODO: Replace guide.css woff URLs
 // TODO: Upload assets using wrangler
 // TODO: Upload PDF using wrangler, maybe?
