@@ -8,6 +8,7 @@ import os from 'os'
 import runPdf2htmlEX from './run-pdf2htmlEX.js'
 import getPdfMetadata from './get-pdf-metadata.js'
 import findRoot from 'find-root'
+import readline from 'readline'
 
 const cliArgs = commandLineArgs([
   { name: 'file', defaultOption: true },
@@ -31,8 +32,8 @@ const baseUrl = urlJoin(aircraftData.metadata.assetsBaseUrl, metadata.outputPath
 const pageFiles = fs.readdirSync(outputFolder).filter((file) => file.endsWith('.page.html'))
 let currentPage = 1
 pageFiles.forEach((file) => {
-  process.stdout.clearLine(0)
-  process.stdout.cursorTo(0)
+  readline.clearLine(process.stdout)
+  readline.cursorTo(process.stdout, 0)
   process.stdout.write(`Modifying page ${currentPage}/${pageFiles.length}`)
 
   const filePath = path.join(outputFolder, file)
