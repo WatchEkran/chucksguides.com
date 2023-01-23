@@ -2,18 +2,22 @@ import path from 'path'
 import fs from 'fs'
 import urlJoin from 'url-join'
 import commandLineArgs from 'command-line-args'
-import siteConfig from '../src/site-config.json' assert { type: 'json' }
 import os from 'os'
 import runPdf2htmlEX from './run-pdf2htmlEX.js'
 import getPdfMetadata from './get-pdf-metadata.js'
 import findRoot from 'find-root'
 import readline from 'readline'
 import { modifyHtml } from './modify-html.js'
+import { spawnSync } from 'child_process'
+
+const siteConfigJson = fs.readFileSync('../src/site-config.json', 'utf8')
+const siteConfig = JSON.parse(siteConfigJson)
 
 const cliArgs = commandLineArgs([
   { name: 'file', defaultOption: true },
   { name: 'game', alias: 'g' },
   { name: 'designation', alias: 'd' },
+  { name: 'rclone-remote-path' },
 ])
 
 // Absolute path to the input file, i.e. '/home/user/pdfs/a-10c.pdf'
@@ -88,6 +92,25 @@ fs.rmSync(path.join(outputFolder, 'fancy.min.css'))
 fs.rmSync(path.join(outputFolder, 'pdf2htmlEX.min.js'))
 fs.rmSync(path.join(outputFolder, 'pdf2htmlEX-64x64.png'))
 console.log('done.')
-// TODO: Upload assets using rclone
-// TODO: Upload PDF using rclone, maybe?
-// TODO: Update site-config.json
+// ---------------------------------------------------------------------------------------------------------------------
+console.log(`Uploading guide files to ${cliArgs['rclone-remote-path']}...`)
+const args = [
+  'sync',
+  outputFolder,
+  `${cliArgs['rclone-remote-path']}/${metadata.outputPath}`,
+  '-P',
+  '--transfers',
+  '1000',
+]
+spawnSync('rclone', args, { stdio: 'inherit' })
+// ---------------------------------------------------------------------------------------------------------------------
+console.log(`Uploading PDF to ${cliArgs['rclone-remote-path']}...`)
+const args2 = ['copy', pathToPdf, `${cliArgs['rclone-remote-path']}/pdf`, '-P']
+spawnSync('rclone', args2, { stdio: 'inherit' })
+// ---------------------------------------------------------------------------------------------------------------------
+const aircraftData = siteConfig.guides[metadata.game][metadata.designation]
+aircraftData.pageCount = metadata.pageCount
+aircraftData.assetsUrl = baseUrl
+aircraftData.pdfUrl = urlJoin(siteConfig.assetsBaseUrl, 'pdf', path.filename(pathToPdf))
+
+fs.writeFileSync(JSON.stringify(aircraftData, undefined, 2))
