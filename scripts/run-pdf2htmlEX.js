@@ -13,6 +13,7 @@ export default function runPdf2htmlEX(pathToPdf, outputFolder) {
     `--dest-dir=${outputFolder}`,
     '--external-hint-tool=ttfautohint',
     '--turn-off-ligatures=1',
+    'guide.html',
   ]
 
   spawnSync('pdf2htmlEX', args, { stdio: 'inherit' })

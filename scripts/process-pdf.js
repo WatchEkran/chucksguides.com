@@ -1,14 +1,14 @@
 import path from 'path'
-import * as cheerio from 'cheerio'
 import fs from 'fs'
 import urlJoin from 'url-join'
 import commandLineArgs from 'command-line-args'
-import aircraftData from '../src/aircraft-data.json' assert { type: 'json' }
+import siteConfig from '../src/site-config.json' assert { type: 'json' }
 import os from 'os'
 import runPdf2htmlEX from './run-pdf2htmlEX.js'
 import getPdfMetadata from './get-pdf-metadata.js'
 import findRoot from 'find-root'
 import readline from 'readline'
+import { modifyHtml } from './modify-html.js'
 
 const cliArgs = commandLineArgs([
   { name: 'file', defaultOption: true },
@@ -23,12 +23,17 @@ const metadata = await getPdfMetadata(pathToPdf)
 const outputFolder = path.join(findRoot(process.cwd()), 'tmp', metadata.outputPath)
 console.log(`Saving output to folder: ${outputFolder}`)
 
+if (fs.existsSync(outputFolder)) {
+  process.stdout.write('Output folder already exists, deleting it...')
+  fs.rmSync(outputFolder, { recursive: true })
+  console.log('done.')
+}
+
 // Generate the HTML from the PDF.
 runPdf2htmlEX(pathToPdf, outputFolder)
 
 // ---------------------------------------------------------------------------------------------------------------------
-
-const baseUrl = urlJoin(aircraftData.metadata.assetsBaseUrl, metadata.outputPath)
+const baseUrl = urlJoin(siteConfig.assetsBaseUrl, metadata.outputPath)
 const pageFiles = fs.readdirSync(outputFolder).filter((file) => file.endsWith('.page.html'))
 let currentPage = 1
 pageFiles.forEach((file) => {
@@ -36,24 +41,53 @@ pageFiles.forEach((file) => {
   readline.cursorTo(process.stdout, 0)
   process.stdout.write(`Modifying page ${currentPage}/${pageFiles.length}`)
 
-  const filePath = path.join(outputFolder, file)
-  const $ = cheerio.load(fs.readFileSync(filePath))
-  const img = $('img')
-  img.attr('src', urlJoin(baseUrl, img.attr('src')))
-  img.attr('loading', 'lazy')
-  img.attr('decoding', 'async')
+  const pathToFile = path.join(outputFolder, file)
+  modifyHtml(pathToFile, ($) => {
+    const img = $('img')
+    img.attr('src', urlJoin(baseUrl, img.attr('src')))
+    img.attr('alt', null)
+    img.attr('loading', 'lazy')
+    img.attr('decoding', 'async')
 
-  const outputHtml = $('.pc').toString()
-  fs.writeFileSync(filePath, outputHtml)
+    return $('.pc')
+  })
+
   currentPage = currentPage + 1
 })
 
-console.log('\n')
-
+console.log() // Add newline.
 // ---------------------------------------------------------------------------------------------------------------------
+const outlineFilePath = path.join(outputFolder, 'outline.html')
+process.stdout.write('Modifying outline.html...')
+modifyHtml(outlineFilePath, ($) => {
+  $('a').each((index, anchor) => {
+    const $anchor = $(anchor)
+    const pageNumberInHex = $anchor.attr('href').split('pf')[1]
+    const pageNumberInDecicmal = parseInt(pageNumberInHex, 16)
+    $anchor.attr('href', `#page${pageNumberInDecicmal}`)
+    $anchor.attr('data-dest-detail', null)
+    $anchor.attr('class', null)
+  })
 
-// TODO: Modify outline.html to change the page numbering from hex to dec
-// TODO: Replace guide.css woff URLs
-// TODO: Upload assets using wrangler
-// TODO: Upload PDF using wrangler, maybe?
-// TODO: Update aircraft-data.json
+  return $
+})
+console.log('done.')
+// ---------------------------------------------------------------------------------------------------------------------
+process.stdout.write('Modifying guide.css...')
+const guideCssFilePath = path.join(outputFolder, 'guide.css')
+let guideCss = fs.readFileSync(guideCssFilePath, 'utf8')
+guideCss = guideCss.replace(/(?<=url\()(\S+)(?=\.woff)/g, `${baseUrl}/$1`)
+fs.writeFileSync(guideCssFilePath, guideCss)
+console.log('done.')
+// ---------------------------------------------------------------------------------------------------------------------
+process.stdout.write('Deleting unnecessary files...')
+fs.rmSync(path.join(outputFolder, 'base.min.css'))
+fs.rmSync(path.join(outputFolder, 'compatibility.min.js'))
+fs.rmSync(path.join(outputFolder, 'guide.html'))
+fs.rmSync(path.join(outputFolder, 'fancy.min.css'))
+fs.rmSync(path.join(outputFolder, 'pdf2htmlEX.min.js'))
+fs.rmSync(path.join(outputFolder, 'pdf2htmlEX-64x64.png'))
+console.log('done.')
+// TODO: Upload assets using rclone
+// TODO: Upload PDF using rclone, maybe?
+// TODO: Update site-config.json

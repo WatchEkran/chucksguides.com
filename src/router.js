@@ -9,7 +9,7 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'Home', component: Home },
     {
-      path: '/aircraft/:game/:designation',
+      path: '/guide/:game/:designation',
       component: Guide,
       props: true,
       beforeEnter(to) {
