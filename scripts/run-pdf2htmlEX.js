@@ -18,3 +18,20 @@ export default function runPdf2htmlEX(pathToPdf, outputFolder) {
 
   spawnSync('pdf2htmlEX', args, { stdio: 'inherit' })
 }
+
+export function runPdf2htmlEXOld(pathToPdf, outputFolder) {
+  const args = [
+    pathToPdf,
+    '--embed=cfijO',
+    '--split-pages=1',
+    '--page-filename=%d.page.html',
+    '--bg-format=svg',
+    '--optimize-text=1',
+    `--dest-dir=${outputFolder}`,
+    '--external-hint-tool=ttfautohint',
+    '--turn-off-ligatures=1',
+    'index.html',
+  ]
+
+  spawnSync('pdf2htmlEX', args, { stdio: 'inherit' })
+}

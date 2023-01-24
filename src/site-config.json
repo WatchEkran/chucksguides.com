@@ -18,7 +18,7 @@
         "pdfUrl": "https://assets.chucksguides.com/pdf/DCS F-86F Sabre Guide.pdf"
       },
       "fa-18c": {
-        "path": "guides/dcs/fa-18c",
+        "path": "aircraft/dcs/fa-18c",
         "pdfUrl": "https://assets.chucksguides.com/pdf/DCS FA-18C Hornet Guide.pdf"
       },
       "ka-50": {
@@ -28,6 +28,18 @@
       "mig-15bis": {
         "path": "guides/dcs/mig-15bis",
         "pdfUrl": "https://assets.chucksguides.com/pdf/DCS MiG-15bis Guide.pdf"
+      },
+      "av-8b": {
+        "path": "aircraft/dcs/av-8b",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS AV-8B Harrier Guide.pdf"
+      },
+      "mi-8": {
+        "path": "aircraft/dcs/mi-8",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS Mi-8MTV2 Guide.pdf"
+      },
+      "mi-24p": {
+        "path": "aircraft/dcs/mi-24p",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS Mi-24P Hind Guide.pdf"
       }
     },
     "il2-gb": {

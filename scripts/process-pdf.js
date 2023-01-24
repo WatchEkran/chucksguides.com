@@ -53,6 +53,13 @@ pageFiles.forEach((file) => {
     img.attr('loading', 'lazy')
     img.attr('decoding', 'async')
 
+    $('a[href^="pf"]').each((index, anchor) => {
+      const $anchor = $(anchor)
+      const pageNumberInHex = $anchor.attr('href').split('pf')[1]
+      const pageNumberInDec = parseInt(pageNumberInHex, 16)
+      $anchor.attr('href', `#page${pageNumberInDec}`)
+    })
+
     return $('.pc')
   })
 
@@ -67,8 +74,8 @@ modifyHtml(outlineFilePath, ($) => {
   $('a').each((index, anchor) => {
     const $anchor = $(anchor)
     const pageNumberInHex = $anchor.attr('href').split('pf')[1]
-    const pageNumberInDecicmal = parseInt(pageNumberInHex, 16)
-    $anchor.attr('href', `#page${pageNumberInDecicmal}`)
+    const pageNumberInDec = parseInt(pageNumberInHex, 16)
+    $anchor.attr('href', `#page${pageNumberInDec}`)
     $anchor.attr('data-dest-detail', null)
     $anchor.attr('class', null)
   })
@@ -100,7 +107,7 @@ const args = [
   `${cliArgs['rclone-remote-path']}/${metadata.outputPath}`,
   '-P',
   '--transfers',
-  '1000',
+  '50',
 ]
 spawnSync('rclone', args, { stdio: 'inherit' })
 // ---------------------------------------------------------------------------------------------------------------------
