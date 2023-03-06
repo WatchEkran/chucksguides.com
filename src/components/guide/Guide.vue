@@ -1,16 +1,15 @@
 <script>
 import GuideOutline from './GuideOutline.vue'
 import GuidePage from './GuidePage.vue'
-import aircraftData from '/src/aircraft-data'
+import siteConfig from '/src/site-config.json'
 import { getPageNumberFromHash, setPageTitle } from '../../utils.js'
 import urlJoin from 'url-join'
 import IntersectionObserver from './IntersectionObserver.vue'
-import GuideCss from './GuideCss.vue'
 import GuideNavbar from './GuideNavbar.vue'
 import GuideSidebar from './GuideSidebar.vue'
 
 export default {
-  components: { GuideSidebar, GuideNavbar, GuideCss, IntersectionObserver, GuideOutline, GuidePage },
+  components: { GuideSidebar, GuideNavbar, IntersectionObserver, GuideOutline, GuidePage },
   props: {
     game: { type: String, required: true },
     designation: { type: String, required: true },
@@ -25,7 +24,7 @@ export default {
     }
   },
   created() {
-    const { designation, name } = this.aircraft
+    const { designation, name } = this.aircraftData
     setPageTitle(name ? `${designation} ${name}` : designation)
   },
   mounted() {
@@ -52,12 +51,11 @@ export default {
     },
   },
   computed: {
-    aircraft() {
-      return aircraftData[this.game][this.designation]
+    aircraftData() {
+      return siteConfig.guides[this.game][this.designation]
     },
-    assetsUrl() {
-      const { path, hash } = this.aircraft
-      return urlJoin(import.meta.env.VITE_ASSETS_BASE_URL, path, hash)
+    cssUrl() {
+      return urlJoin(this.aircraftData.guideUrl, 'guide.css')
     },
     visiblePageNumbers() {
       return this.visiblePageElements.map((element) => parseInt(element.dataset.pageNumber))
@@ -86,7 +84,7 @@ export default {
 </script>
 
 <template lang="pug">
-GuideCss(:base-url="assetsUrl")
+link(rel="stylesheet" :href="cssUrl")
 
 component(is="style")
   | .pf { width: calc(960px * {{ currentZoom }}); height: calc(540px * {{ currentZoom }}) }
@@ -112,20 +110,20 @@ template(v-if="pagesWrapper")
 #guide
   GuideNavbar#navbar(
     :current-page="currentPage"
-    :page-count="aircraft.pageCount"
+    :page-count="aircraftData.pageCount"
     v-model:currentZoom="currentZoom"
     @page-change="setCurrentPageAndScrollIntoView"
   )
 
-  GuideSidebar(:base-url="assetsUrl")
+  GuideSidebar(:assets-url="aircraftData.assetsUrl")
 
   #pages(ref="pages")
-    a(:href="aircraft.pdfUrl") Download PDF
+    a(:href="aircraftData.pdfUrl") Download PDF
 
     GuidePage(
       v-for="pageNumber in 20"
       :page-number="pageNumber"
-      :base-url="assetsUrl"
+      :guide-url="aircraftData.guideUrl"
       :should-fetch-page="visiblePageNumbers.includes(pageNumber)"
       :is-visible="visiblePageNumbers.includes(pageNumber)"
     )

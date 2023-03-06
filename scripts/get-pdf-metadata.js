@@ -1,23 +1,23 @@
-import siteConfig from '../src/site-config.json' assert { type: 'json' }
 import path from 'path'
 import lodash from 'lodash'
 import md5File from 'md5-file'
 import pdfinfo from 'pdfinfo'
 import urlJoin from 'url-join'
 
-const aircraftArray = []
-Object.entries(siteConfig.guides).forEach(([game, modules]) => {
-  Object.entries(modules).forEach(([designation, config]) => {
-    config.game = game
-    config.designation = designation
-    aircraftArray.push(config)
+export default async function getPdfMetadata(pathToPdf, siteConfig) {
+  const aircraftArray = []
+  Object.entries(siteConfig.guides).forEach(([game, modules]) => {
+    Object.entries(modules).forEach(([module, config]) => {
+      config.game = game
+      config.module = module
+      aircraftArray.push(config)
+    })
   })
-})
 
-const lookupByPdfName = lodash.keyBy(aircraftArray, ({ pdfUrl }) => path.basename(pdfUrl))
+  const lookupByPdfName = lodash.keyBy(aircraftArray, ({ pdfUrl }) => path.basename(pdfUrl))
 
-export default async function getPdfMetadata(pathToPdf) {
   const pdf = pdfinfo(pathToPdf)
+  // Get info about the PDF.
   const pdfMetadata = await new Promise((resolve) => {
     pdf.info((error, metadata) => {
       if (error) {
@@ -30,17 +30,19 @@ export default async function getPdfMetadata(pathToPdf) {
 
   const filename = path.basename(pathToPdf)
   const aircraftData = lookupByPdfName[filename]
-  const md5 = md5File.sync(pathToPdf)
+  const hash = md5File.sync(pathToPdf)
   const metadata = {
-    outputPath: urlJoin(aircraftData.path, md5),
+    game: aircraftData.game,
+    module: aircraftData.module,
+    hash,
     pageCount: pdfMetadata.pages,
   }
 
   if (aircraftData) {
-    console.log(`Found aircraft config in aircraft-data.json for filename '${filename}'`)
+    console.log(`Found aircraft config for filename '${filename}'`)
     console.log(metadata)
   } else {
-    console.warn(`Could not find aircraft config in aircraft-data.json for filename '${filename}'`)
+    console.warn(`Could not find aircraft config for filename '${filename}'`)
   }
 
   return metadata

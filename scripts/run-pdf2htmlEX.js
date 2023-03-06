@@ -16,7 +16,8 @@ export default function runPdf2htmlEX(pathToPdf, outputFolder) {
     'guide.html',
   ]
 
-  spawnSync('pdf2htmlEX', args, { stdio: 'inherit' })
+  const spawnedProcess = spawnSync('pdf2htmlEX', args, { stdio: 'inherit' })
+  process.on('SIGINT', () => spawnedProcess.kill())
 }
 
 export function runPdf2htmlEXOld(pathToPdf, outputFolder) {

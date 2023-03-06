@@ -6,7 +6,7 @@ export default {
   components: { LoadingIndicator },
   props: {
     pageNumber: { type: Number, required: true },
-    baseUrl: { type: String, required: true },
+    guideUrl: { type: String, required: true },
     shouldFetchPage: { type: Boolean, required: true },
     isVisible: { type: Boolean, required: true },
   },
@@ -22,8 +22,10 @@ export default {
   watch: {
     shouldFetchPage() {
       if (this.shouldFetchPage) {
+        // Add a 100ms delay before fetching the page, to prevent excessive requests if the user is scrolling quickly.
         this.timer = setTimeout(this.fetchPage, 100)
       } else {
+        // Cancel the scheduled fetchPage call if the page is no longer in view.
         clearTimeout(this.timer)
       }
     },
@@ -36,24 +38,14 @@ export default {
 
       this.isFetched = true
       this.isLoading = true
-      const url = urlJoin(this.baseUrl, `${this.pageNumber}.page.html`)
+      const url = urlJoin(this.guideUrl, `${this.pageNumber}.page.html`)
 
       const response = await fetch(url)
       this.isLoading = false
 
       if (response.ok) {
         const rawHtml = await response.text()
-        // Create an in-memory element so that we can edit the page HTML.
-        const wrapper = document.createElement('div')
-        wrapper.innerHTML = rawHtml
-        // Change the image src and make it lazy loading and async decoding.
-        const img = wrapper.querySelector('img')
-        img.setAttribute('src', urlJoin(this.baseUrl, img.getAttribute('src')))
-        img.loading = 'lazy'
-        img.decoding = 'async'
-        // Return just the .pc (page content), there's some metadata in the HTML that we don't need.
-        this.pageHtml = wrapper.querySelector('.pc').outerHTML
-        this.$refs.page.innerHTML = this.pageHtml
+        this.$refs.page.innerHTML = rawHtml
       } else {
         this.errorMessage = response.statusText
       }

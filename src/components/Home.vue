@@ -1,10 +1,10 @@
 <script>
 import Navbar from './Navbar.vue'
 import AircraftCards from './AircraftCards.vue'
-import { dcs } from '../aircraft-data'
+import siteConfig from '../site-config.json'
 
 const DcsModern = [
-  dcs['a-10c'],
+    siteConfig.guides.dcs['a-10c'],
 ]
 
 export default {

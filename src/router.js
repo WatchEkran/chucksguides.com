@@ -2,18 +2,20 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from './components/Home.vue'
 import Guide from './components/guide/Guide.vue'
 import NotFound from './components/NotFound.vue'
-import aircraftData from './aircraft-data'
+import siteConfig from './site-config.json'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', name: 'Home', component: Home },
+    { path: '/aircraft/:game/:designation', redirect: { name: 'guide' } },
     {
-      path: '/guide/:game/:designation',
+      name: 'guide',
+      path: '/guides/:game/:designation',
       component: Guide,
       props: true,
       beforeEnter(to) {
-        const aircraft = aircraftData?.[to.params.game]?.[to.params.designation]
+        const aircraft = siteConfig.guides[to.params.game]?.[to.params.designation]
 
         if (!aircraft) {
           return {

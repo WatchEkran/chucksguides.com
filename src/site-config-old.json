@@ -1,0 +1,82 @@
+{
+  "assetsBaseUrl": "https://assets.chucksguides.com",
+  "pdfBaseUrl": "https://a7931bea101fae9aed3aad65f908018f.r2.cloudflarestorage.com/chucks-guides-test/pdf",
+  "guides": {
+    "dcs": {
+      "a-10c": {
+        "designation": "A-10C",
+        "name": "Warthog",
+        "assetsPath": "dcs/a-10c/321cdbd57ab32fb524492dc474c05faa",
+        "pdfName": "DCS A-10C Warthog Guide.pdf",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS A-10C Warthog Guide.pdf",
+        "pageCount": 522
+      },
+      "fa-18c": {
+        "path": "aircraft/dcs/fa-18c",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS FA-18C Hornet Guide.pdf"
+      },
+      "f-86f": {
+        "designation": "F-86F",
+        "name": "Sabre",
+        "assetsUrl": "https://assets.chucksguides.com/game/dcs/f-86f/a841cb9d048a429e365fa703a9b131c3",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS F-86F Sabre Guide.pdf"
+      },
+      "ka-50": {
+        "path": "aircraft/dcs/ka-50",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS Ka-50 Guide.pdf"
+      },
+      "mig-15bis": {
+        "path": "aircraft/dcs/mig-15bis",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS MiG-15bis Guide.pdf"
+      },
+      "av-8b": {
+        "path": "aircraft/dcs/av-8b",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS AV-8B Harrier Guide.pdf"
+      },
+      "mi-8": {
+        "path": "aircraft/dcs/mi-8",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS Mi-8MTV2 Guide.pdf"
+      },
+      "mi-24p": {
+        "path": "aircraft/dcs/mi-24p",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS Mi-24P Hind Guide.pdf"
+      },
+      "f-16cm": {
+        "path": "aircraft/dcs/f-16cm",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS F-16C Viper Guide.pdf"
+      },
+      "m-2000c": {
+        "path": "aircraft/dcs/m-2000c",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS Mirage 2000C Guide.pdf"
+      },
+      "p-47d": {
+        "path": "aircraft/dcs/p-47d",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS P-47D Thunderbolt Guide.pdf"
+      },
+      "jf-17": {
+        "path": "aircraft/dcs/jf-17",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS JF-17 Thunder Guide.pdf"
+      },
+      "f-14b": {
+        "path": "aircraft/dcs/f-14b",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS F-14B Tomcat Guide.pdf"
+      },
+      "uh-1h": {
+        "path": "aircraft/dcs/uh-1h",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS UH-1H Huey Guide.pdf"
+      }
+    },
+    "il2-gb": {
+      "bf109-f4": {
+        "path": "aircraft/il2-gb/bf109-f4",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/Chuck Il-2 Battle of Stalingrad Guide - Bf109F-4.pdf"
+      }
+    },
+    "il2-clod": {
+      "spitfire": {
+        "path": "aircraft/il2-clod/spitfire",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/Chuck-Guide-Il-2-Cliffs-of-Dover-Spitfire.pdf"
+      }
+    }
+  }
+}
