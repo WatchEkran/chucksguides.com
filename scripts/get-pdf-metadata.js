@@ -2,7 +2,6 @@ import path from 'path'
 import lodash from 'lodash'
 import md5File from 'md5-file'
 import pdfinfo from 'pdfinfo'
-import urlJoin from 'url-join'
 
 export default async function getPdfMetadata(pathToPdf, siteConfig) {
   const aircraftArray = []
@@ -14,7 +13,7 @@ export default async function getPdfMetadata(pathToPdf, siteConfig) {
     })
   })
 
-  const lookupByPdfName = lodash.keyBy(aircraftArray, ({ pdfUrl }) => path.basename(pdfUrl))
+  const lookupByPdfName = lodash.keyBy(aircraftArray, 'pdfFilename')
 
   const pdf = pdfinfo(pathToPdf)
   // Get info about the PDF.

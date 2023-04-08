@@ -7,9 +7,9 @@ import getPdfMetadata from './get-pdf-metadata.js'
 import findRoot from 'find-root'
 import readline from 'readline'
 import { modifyHtml } from './modify-html.js'
-import { spawnSync } from 'child_process'
-import { getCliCommandOutput } from './utils.js'
+import { getCliCommandOutput, runCliCommand } from './utils.js'
 import prompts from 'prompts'
+import { spawnSync } from 'child_process'
 
 // Read the site config JSON.
 const siteConfig = JSON.parse(fs.readFileSync('../src/site-config.json', 'utf8'))
@@ -25,6 +25,8 @@ const cliArgs = commandLineArgs([
 const pathToPdf = getCliCommandOutput(`readlink -m '${cliArgs.file}'`)
 // Get the metadata for the PDF, which gives us 
 const metadata = await getPdfMetadata(pathToPdf, siteConfig)
+console.log(JSON.stringify(siteConfig.guides[metadata.game][metadata.module]))
+
 // Absolute path to save the PDF output to, i.e. '/home/user/chucksguides.com/tmp/guides/dcs/a-10c/abcdefghijklmnop'
 const outputFolder = path.join(findRoot(process.cwd()), 'tmp', 'guides', metadata.game, metadata.module, metadata.hash)
 console.log(`Saving output to folder: ${outputFolder}`)
@@ -51,6 +53,8 @@ if (fs.existsSync(outputFolder)) {
   runPdf2htmlEX(pathToPdf, outputFolder)
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Change page HTML files to use absolute paths.
 // ---------------------------------------------------------------------------------------------------------------------
 const guideUrl = siteConfig.guideUrlTemplate
   .replace('{game}', metadata.game)
@@ -89,59 +93,74 @@ sortedPageFiles.forEach((filename) => {
   })
 })
 
-// console.log() // Add newline.
-// // ---------------------------------------------------------------------------------------------------------------------
-// const outlineFilePath = path.join(outputFolder, 'outline.html')
-// process.stdout.write('Modifying outline.html...')
-// modifyHtml(outlineFilePath, ($) => {
-//   $('a').each((index, anchor) => {
-//     const $anchor = $(anchor)
-//     const pageNumberInHex = $anchor.attr('href').split('pf')[1]
-//     const pageNumberInDec = parseInt(pageNumberInHex, 16)
-//     $anchor.attr('href', `#page${pageNumberInDec}`)
-//     $anchor.attr('data-dest-detail', null)
-//     $anchor.attr('class', null)
-//   })
+console.log() // Add newline.
 
-//   return $
-// })
-// console.log('done.')
-// // ---------------------------------------------------------------------------------------------------------------------
-// process.stdout.write('Modifying guide.css...')
-// const guideCssFilePath = path.join(outputFolder, 'guide.css')
-// let guideCss = fs.readFileSync(guideCssFilePath, 'utf8')
-// guideCss = guideCss.replace(/(?<=url\()(\S+)(?=\.woff)/g, `${baseUrl}/$1`)
-// fs.writeFileSync(guideCssFilePath, guideCss)
-// console.log('done.')
-// // ---------------------------------------------------------------------------------------------------------------------
-// process.stdout.write('Deleting unnecessary files...')
-// fs.rmSync(path.join(outputFolder, 'base.min.css'))
-// fs.rmSync(path.join(outputFolder, 'compatibility.min.js'))
-// fs.rmSync(path.join(outputFolder, 'guide.html'))
-// fs.rmSync(path.join(outputFolder, 'fancy.min.css'))
-// fs.rmSync(path.join(outputFolder, 'pdf2htmlEX.min.js'))
-// fs.rmSync(path.join(outputFolder, 'pdf2htmlEX-64x64.png'))
-// console.log('done.')
-// // ---------------------------------------------------------------------------------------------------------------------
-// console.log(`Uploading guide files to ${cliArgs['rclone-remote-path']}...`)
-// const args = [
-//   'sync',
-//   outputFolder,
-//   `${cliArgs['rclone-remote-path']}/${metadata.outputPath}`,
-//   '-P',
-//   '--stats-one-line',
-//   '--transfers',
-//   '50',
-// ]
-// spawnSync('rclone', args, { stdio: 'inherit' })
-// // ---------------------------------------------------------------------------------------------------------------------
-// console.log(`Uploading PDF to ${cliArgs['rclone-remote-path']}...`)
-// const args2 = ['copy', pathToPdf, `${cliArgs['rclone-remote-path']}/pdf`, '-P']
-// spawnSync('rclone', args2, { stdio: 'inherit' })
-// // ---------------------------------------------------------------------------------------------------------------------
-// const aircraftData = siteConfig.guides[metadata.game][metadata.designation]
-// aircraftData.pageCount = metadata.pageCount
-// aircraftData.assetsUrl = baseUrl
-// aircraftData.pdfUrl = urlJoin(siteConfig.assetsBaseUrl, 'pdf', path.filename(pathToPdf))
+// ---------------------------------------------------------------------------------------------------------------------
+// Change page outline HTML to use absolute paths.
+// ---------------------------------------------------------------------------------------------------------------------
+const outlineFilePath = path.join(outputFolder, 'outline.html')
+process.stdout.write('Modifying outline.html...')
+modifyHtml(outlineFilePath, ($) => {
+  $('a').each((index, anchor) => {
+    const $anchor = $(anchor)
+    const pageNumberInHex = $anchor.attr('href').split('pf')[1]
+    const pageNumberInDec = parseInt(pageNumberInHex, 16)
+    $anchor.attr('href', `#page${pageNumberInDec}`)
+    $anchor.attr('data-dest-detail', null)
+    $anchor.attr('class', null)
+  })
 
-// fs.writeFileSync(JSON.stringify(aircraftData, undefined, 2))
+  return $
+})
+console.log('done.')
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Change guide CSS to use absolute paths.
+// ---------------------------------------------------------------------------------------------------------------------
+process.stdout.write('Modifying guide.css...')
+const guideCssFilePath = path.join(outputFolder, 'guide.css')
+let guideCss = fs.readFileSync(guideCssFilePath, 'utf8')
+guideCss = guideCss.replace(/(?<=url\()(\S+)(?=\.woff)/g, `${guideUrl}/$1`)
+fs.writeFileSync(guideCssFilePath, guideCss)
+console.log('done.')
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Delete unused files so that they're not uploaded to the CDN.
+// ---------------------------------------------------------------------------------------------------------------------
+process.stdout.write('Deleting unused files...')
+fs.rmSync(path.join(outputFolder, 'base.min.css'), { force: true })
+fs.rmSync(path.join(outputFolder, 'compatibility.min.js'), { force: true })
+fs.rmSync(path.join(outputFolder, 'guide.html'), { force: true })
+fs.rmSync(path.join(outputFolder, 'fancy.min.css'), { force: true })
+fs.rmSync(path.join(outputFolder, 'pdf2htmlEX.min.js'), { force: true })
+fs.rmSync(path.join(outputFolder, 'pdf2htmlEX-64x64.png'), { force: true })
+console.log('done.')
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Upload files to CDN using rclone.
+// ---------------------------------------------------------------------------------------------------------------------
+const bucketPath = `${cliArgs['rclone-remote-path']}:${siteConfig.s3Bucket}`
+const urlPath = new URL(guideUrl).pathname
+const remoteGuidePath = urlJoin(bucketPath, urlPath)
+
+console.log(`Uploading guide files to ${remoteGuidePath}...`)
+runCliCommand(`rclone sync ${outputFolder} ${remoteGuidePath} -P --stats-one-line --transfers 50`)
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Upload PDF to CDN using rclone.
+// ---------------------------------------------------------------------------------------------------------------------
+const remotePdfPath = urlJoin(bucketPath, 'pdf')
+console.log(`Uploading PDF to ${remotePdfPath}`)
+spawnSync('rclone', ['copy', pathToPdf, remotePdfPath, '-P', '--stats-one-line'], { stdio: 'inherit' })
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Update site config JSON with path to uploaded assets.
+// ---------------------------------------------------------------------------------------------------------------------
+const aircraftData = siteConfig.guides[metadata.game][metadata.module]
+const pdfUrl = siteConfig.pdfUrlTemplate.replace('{filename}', path.basename(pathToPdf))
+
+aircraftData.pageCount = metadata.pageCount
+aircraftData.assetsUrl = guideUrl
+aircraftData.pdfUrl = pdfUrl
+
+fs.writeFileSync('../src/site-config.json', JSON.stringify(aircraftData, undefined, 2))

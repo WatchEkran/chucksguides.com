@@ -64,6 +64,10 @@
       "uh-1h": {
         "path": "aircraft/dcs/uh-1h",
         "pdfUrl": "https://assets.chucksguides.com/pdf/DCS UH-1H Huey Guide.pdf"
+      },
+      "ajs-37": {
+        "path": "aircraft/dcs/ajs-37",
+        "pdfUrl": "https://assets.chucksguides.com/pdf/DCS AJS-37 Viggen Guide.pdf"
       }
     },
     "il2-gb": {

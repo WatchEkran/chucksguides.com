@@ -23,8 +23,9 @@ const cliArgs = commandLineArgs([
 const pathToPdf = getCliCommandOutput(`readlink -f ${cliArgs.file.replaceAll(' ', '\\ ')}`)
 console.log('path to pdf', pathToPdf)
 const metadata = await getPdfMetadata(pathToPdf, siteConfig)
+const outputPath = urlJoin('aircraft', metadata.game, metadata.module, metadata.hash)
 // Absolute path to save the PDF output to, i.e. '/home/user/chucksguides.com/tmp/aircraft/dcs/a-10c/abcdefghijklmnop'
-const outputFolder = path.join(findRoot(process.cwd()), 'tmp', metadata.outputPath)
+const outputFolder = path.join(findRoot(process.cwd()), 'tmp', outputPath)
 console.log(`Saving output to folder: ${outputFolder}`)
 
 if (fs.existsSync(outputFolder)) {
@@ -37,7 +38,7 @@ if (fs.existsSync(outputFolder)) {
 runPdf2htmlEXOld(pathToPdf, outputFolder)
 
 // ---------------------------------------------------------------------------------------------------------------------
-const baseUrl = urlJoin(siteConfig.assetsBaseUrl, metadata.outputPath)
+const baseUrl = urlJoin(siteConfig.assetsBaseUrl, outputPath)
 const pageFiles = fs.readdirSync(outputFolder).filter((file) => file.endsWith('.page.html'))
 let currentPage = 1
 pageFiles.forEach((file) => {
@@ -61,6 +62,6 @@ pageFiles.forEach((file) => {
 
 console.log() // Add newline.
 // ---------------------------------------------------------------------------------------------------------------------
-console.log(`Uploading guide files to ${cliArgs['rclone-remote-path']}...`)
-const remoteFolder = `${cliArgs['rclone-remote-path']}/${metadata.outputPath}`
+console.log(`Uploading guide files to ${cliArgs['rclone-remote-path']}/${outputPath}...`)
+const remoteFolder = `${cliArgs['rclone-remote-path']}/${outputPath}`
 runCliCommand(`rclone sync ${outputFolder} ${remoteFolder} -P --stats-one-line --transfers 50`)
