@@ -1,10 +1,19 @@
 {
-  "designation": "A-10C",
-  "name": "Warthog",
-  "pdfFilename": "DCS A-10C Warthog Guide.pdf",
-  "game": "dcs",
-  "module": "a-10c",
-  "pageCount": 524,
-  "assetsUrl": "https://pub-13209e6de6254950a3e474a282bef752.r2.dev/guides/dcs/a-10c/07bceb21d21a110a584975efc68bcc4c",
-  "pdfUrl": "https://pub-13209e6de6254950a3e474a282bef752.r2.dev/pdf/DCS A-10C Warthog Guide.pdf"
+  "guideUrlTemplate": "https://pub-13209e6de6254950a3e474a282bef752.r2.dev/guides/{game}/{module}/{hash}",
+  "pdfUrlTemplate": "https://pub-13209e6de6254950a3e474a282bef752.r2.dev/pdf/{filename}",
+  "s3Bucket": "chucks-guides-test",
+  "guides": {
+    "dcs": {
+      "a-10c": {
+        "designation": "A-10C",
+        "name": "Warthog",
+        "pdfFilename": "DCS A-10C Warthog Guide.pdf",
+        "game": "dcs",
+        "module": "a-10c",
+        "pageCount": 524,
+        "guideUrl": "https://pub-13209e6de6254950a3e474a282bef752.r2.dev/guides/dcs/a-10c/07bceb21d21a110a584975efc68bcc4c",
+        "pdfUrl": "https://pub-13209e6de6254950a3e474a282bef752.r2.dev/pdf/DCS A-10C Warthog Guide.pdf"
+      }
+    }
+  }
 }

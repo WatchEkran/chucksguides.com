@@ -115,4 +115,13 @@ export default {
   transform-origin: 0 100%
   unicode-bidi: bidi-override
   font-feature-settings: 'liga' 0
+
+  span
+    position: relative
+    unicode-bidi: bidi-override
+
+._
+  display: inline-block
+  color: transparent
+  z-index: -1
 </style>

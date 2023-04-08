@@ -86,9 +86,9 @@ export default {
 <template lang="pug">
 link(rel="stylesheet" :href="cssUrl")
 
-component(is="style")
-  | .pf { width: calc(960px * {{ currentZoom }}); height: calc(540px * {{ currentZoom }}) }
-  | .pc { transform: scale({{ currentZoom }}) }
+//- component(is="style")
+//-   | .pf { width: calc(960px * {{ currentZoom }}); height: calc(540px * {{ currentZoom }}) }
+//-   | .pc { transform: scale({{ currentZoom }}) }
 
 template(v-if="pagesWrapper")
   // Triggers when the page crosses the horizontal center of the viewport. Used to set the current page.
@@ -115,7 +115,7 @@ template(v-if="pagesWrapper")
     @page-change="setCurrentPageAndScrollIntoView"
   )
 
-  GuideSidebar(:assets-url="aircraftData.assetsUrl")
+  GuideSidebar(:guide-url="aircraftData.guideUrl")
 
   #pages(ref="pages")
     a(:href="aircraftData.pdfUrl") Download PDF

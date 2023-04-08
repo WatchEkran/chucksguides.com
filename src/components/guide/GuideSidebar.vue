@@ -4,14 +4,14 @@ import GuideOutline from './GuideOutline.vue'
 export default {
   components: { GuideOutline },
   props: {
-    assetsUrl: { type: String, required: true }
+    guideUrl: { type: String, required: true }
   }
 }
 </script>
 
 <template lang="pug">
 #sidebar
-  GuideOutline(:assets-url="assetsUrl")
+  GuideOutline(:guide-url="guideUrl")
 </template>
 
 <style lang="stylus" scoped>

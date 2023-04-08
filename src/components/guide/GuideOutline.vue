@@ -3,13 +3,13 @@ import urlJoin from 'url-join'
 
 export default {
   props: {
-    assetsUrl: { type: String, required: true },
+    guideUrl: { type: String, required: true },
   },
   data: () => ({
     outlineHtml: undefined,
   }),
   async created() {
-    const response = await fetch(urlJoin(this.assetsUrl, 'outline.html'))
+    const response = await fetch(urlJoin(this.guideUrl, 'outline.html'))
     const rawHtml = await response.text()
 
     var wrapper = document.createElement('div')

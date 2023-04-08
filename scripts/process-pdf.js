@@ -160,7 +160,7 @@ const aircraftData = siteConfig.guides[metadata.game][metadata.module]
 const pdfUrl = siteConfig.pdfUrlTemplate.replace('{filename}', path.basename(pathToPdf))
 
 aircraftData.pageCount = metadata.pageCount
-aircraftData.assetsUrl = guideUrl
+aircraftData.guideUrl = guideUrl
 aircraftData.pdfUrl = pdfUrl
 
-fs.writeFileSync('../src/site-config.json', JSON.stringify(aircraftData, undefined, 2))
+fs.writeFileSync('../src/site-config.json', JSON.stringify(siteConfig, undefined, 2))
